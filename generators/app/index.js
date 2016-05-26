@@ -40,20 +40,22 @@ module.exports = yeoman.Base.extend({
   },
 
   writing: function () {
+    var scope = {
+      props: this.props,
+      paths: this.paths
+    };
 
-    //Main.hex
-    this.fs.copyTpl(
-      this.templatePath('src/Main.hx'),
-      this.destinationPath(this.paths.packagePath + '/Main.hx'), {
-        props: this.props,
-        paths: this.paths
-      }
-    );
+    var packageFiles = [
+      'src/Main.hx',
+      'src/configuration/context.xml',
+      'src/configuration/ModuleConfiguration.xml',
+      'src/configuration/ServiceConfiguration.xml',
+      'src/configuration/ViewConfigurationJS.xml'
+    ];
 
-    this.fs.copy(
-      this.templatePath('dummyfile.txt'),
-      this.destinationPath('dummyfile.txt')
-    );
+    for (var file of packageFiles) {
+      this.fs.copyTpl(this.templatePath(file), this.destinationPath(this.paths.packagePath + '/' + file), scope);
+    }
   },
 
   install: function () {

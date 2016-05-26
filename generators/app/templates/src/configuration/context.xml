@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<root name="<%= props.appName %>">
+	<include file="<%= paths.packagePath %>/configuration/ModuleConfiguration.xml"/>
+	<include file="<%= paths.packagePath %>/configuration/ServiceConfiguration.xml"/>
+	<include file="<%= paths.packagePath %>/configuration/ViewConfigurationJS.xml"/>
+</root>
