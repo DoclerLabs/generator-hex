@@ -1,7 +1,7 @@
 {
   "name": "generator-hex",
   "version": "0.0.0",
-  "description": "Project generator for hexMachina framework",
+  "description": "Yeoman generator for hexMachina framework",
   "homepage": "http://hexmachina.org",
   "author": {
     "name": "Andras Szell",
