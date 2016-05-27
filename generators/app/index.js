@@ -16,8 +16,7 @@ module.exports = yeoman.Base.extend({
       message: 'What is the application\'s name?',
       default: this.appname, // Default to current folder name
       store: true
-    },
-    {
+    }, {
       type: 'input',
       name: 'packageName',
       message: 'What is the application\'s package name?',
@@ -30,12 +29,11 @@ module.exports = yeoman.Base.extend({
       this.props = props;
 
       this.paths = {
-        packagePath: 'src/'+this.props.packageName
-      }
+        packagePath: 'src/' + this.props.packageName
+      };
 
       this.config.set('props', this.props);
       this.config.set('paths', this.paths);
-
     }.bind(this));
   },
 
@@ -46,15 +44,15 @@ module.exports = yeoman.Base.extend({
     };
 
     var packageFiles = [
-      'src/Main.hx',
-      'src/configuration/context.xml',
-      'src/configuration/ModuleConfiguration.xml',
-      'src/configuration/ServiceConfiguration.xml',
-      'src/configuration/ViewConfigurationJS.xml'
+      'Main.hx',
+      'configuration/context.xml',
+      'configuration/ModuleConfiguration.xml',
+      'configuration/ServiceConfiguration.xml',
+      'configuration/ViewConfigurationJS.xml'
     ];
 
     for (var file of packageFiles) {
-      this.fs.copyTpl(this.templatePath(file), this.destinationPath(this.paths.packagePath + '/' + file), scope);
+      this.fs.copyTpl(this.templatePath('src/' + file), this.destinationPath(this.paths.packagePath + '/' + file), scope);
     }
   },
 
