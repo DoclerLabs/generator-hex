@@ -57,6 +57,19 @@ module.exports = yeoman.Base.extend({
     }
   },
 
+  // Generate haxelib.json
+  haxelib: function () {
+    var content = {
+      name: this.props.appName,
+      version: '1.0.0',
+      dependencies: {
+        hexmachina: 'git:https://github.com/DoclerLabs/hexMachina.git'
+      }
+    };
+
+    this.fs.writeJSON(this.destinationPath('haxelib.json'), content);
+  },
+
   install: function () {
     this.installDependencies();
   }

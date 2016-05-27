@@ -27,4 +27,16 @@ describe('generator-hex:app', function () {
     ];
     assert.file(expected);
   });
+
+  it('creates haxelib.json', function () {
+    var expected = {
+      name: 'hexGeneratorTest',
+      version: '1.0.0',
+      dependencies: {
+        hexmachina: 'git:https://github.com/DoclerLabs/hexMachina.git'
+      }
+    };
+
+    assert.jsonFileContent('haxelib.json', expected);
+  });
 });
