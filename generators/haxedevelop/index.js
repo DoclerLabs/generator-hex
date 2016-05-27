@@ -1,0 +1,35 @@
+'use strict';
+var yeoman = require('yeoman-generator');
+var chalk = require('chalk');
+var yosay = require('yosay');
+
+module.exports = yeoman.Base.extend({
+  init: function () {
+    this.log(yosay(
+      'Generating project files for ' + chalk.red('haxedevelop')
+    ));
+
+    this.props = this.config.get('props');
+    this.paths = this.config.get('paths');
+  },
+
+  writingTemplates: function () {
+    var mainPath = this.paths.packagePath + '/Main.hx';
+    mainPath.replace(new RegExp('/', 'g'), '\\');
+
+    var scope = {
+      props: this.props,
+      paths: this.paths,
+      mainPath: mainPath
+    };
+
+    // Copy hxproj
+    this.fs.copyTpl(this.templatePath('Project.hxproj'), this.destinationPath(this.props.appName + '.hxproj'), scope);
+  },
+
+  writing: function () {
+    // Copy assets
+    this.fs.copy(this.templatePath('Project.png'), this.destinationPath(this.props.appName + '.png'));
+    this.fs.copy(this.templatePath('Project.txt'), this.destinationPath(this.props.appName + '.txt'));
+  }
+});

@@ -29,7 +29,8 @@ module.exports = yeoman.Base.extend({
       this.props = props;
 
       this.paths = {
-        packagePath: 'src/' + this.props.packageName
+        // We need to replace dots with slashes
+        packagePath: 'src/' + this.props.packageName.replace(new RegExp('\\.', 'g'), '/')
       };
 
       this.config.set('props', this.props);
