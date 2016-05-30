@@ -38,36 +38,40 @@ module.exports = yeoman.Base.extend({
     }.bind(this));
   },
 
-  writing: function () {
-    var scope = {
-      props: this.props,
-      paths: this.paths
-    };
+  configuring: {
+    // Generate haxelib.json
+    haxelib: function () {
+      var content = {
+        name: this.props.appName,
+        version: '1.0.0',
+        dependencies: {
+          hexmachina: 'git:https://github.com/DoclerLabs/hexMachina.git'
+        }
+      };
 
-    var packageFiles = [
-      'Main.hx',
-      'configuration/context.xml',
-      'configuration/ModuleConfiguration.xml',
-      'configuration/ServiceConfiguration.xml',
-      'configuration/ViewConfigurationJS.xml'
-    ];
-
-    for (var file of packageFiles) {
-      this.fs.copyTpl(this.templatePath('src/' + file), this.destinationPath(this.paths.packagePath + '/' + file), scope);
+      this.fs.writeJSON(this.destinationPath('haxelib.json'), content);
     }
   },
 
-  // Generate haxelib.json
-  haxelib: function () {
-    var content = {
-      name: this.props.appName,
-      version: '1.0.0',
-      dependencies: {
-        hexmachina: 'git:https://github.com/DoclerLabs/hexMachina.git'
-      }
-    };
+  writing: {
+    templates: function () {
+      var scope = {
+        props: this.props,
+        paths: this.paths
+      };
 
-    this.fs.writeJSON(this.destinationPath('haxelib.json'), content);
+      var packageFiles = [
+        'Main.hx',
+        'configuration/context.xml',
+        'configuration/ModuleConfiguration.xml',
+        'configuration/ServiceConfiguration.xml',
+        'configuration/ViewConfigurationJS.xml'
+      ];
+
+      for (var file of packageFiles) {
+        this.fs.copyTpl(this.templatePath('src/' + file), this.destinationPath(this.paths.packagePath + '/' + file), scope);
+      }
+    }
   },
 
   install: function () {
