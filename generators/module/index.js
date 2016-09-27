@@ -1,51 +1,62 @@
 'use strict';
 var yeoman = require('yeoman-generator');
+var helper = require('../helper');
+
+var cwd = process.cwd();
 
 module.exports = yeoman.Base.extend({
-  initializing: function () {
-    this.props = this.config.get('props');
-    this.paths = this.config.get('paths');
-  },
+    prompting: function () {
+        var prompts = [{
+            type: 'input',
+            name: 'moduleNames',
+            validate: helper.validateCommaTypeList,
+            message: 'Please list module names (seperated by commas, including package):'
+        }];
 
-  prompting: function () {
-    var prompts = [{
-      type: 'input',
-      name: 'moduleName',
-      message: 'What is the module\'s name? (CamelCase without module suffix)'
-    }];
+        return this.prompt(prompts).then(function (values) {
+            this.props = values;
+            this.files = [];
 
-    return this.prompt(prompts).then(function (values) {
-      this.moduleName = values.moduleName;
-      this.package = this.props.packageName + '.module.' + this.moduleName.toLowerCase();
-      this.interfaceName = 'I' + this.moduleName;
-      this.modulePath = this.paths.packagePath + '/module/' + this.moduleName.toLowerCase() + '/';
-    }.bind(this));
-  },
+            helper.iterateCommaList(values.moduleNames, function (moduleName) {
+                var parts = moduleName.split('.');
+                var name = parts.pop();
+                if (!name.endsWith("Module")) {
+                    name += "Module";
+                }
+                var pack = parts.join(".");
 
-  configuring: function () {
+                if (moduleName === "") {
+                    return;
+                }
 
-  },
+                this.files.push({
+                    name: name,
+                    package: pack,
+                    className: name,
+                    interfaceName: "I" + name
+                });
+            }.bind(this));
+        }.bind(this));
+    },
 
-  writing: function () {
-    var scope = {
-      author: this.user.git.name(),
-      package: this.package,
-      interfaceName: this.interfaceName,
-      className: this.moduleName
-    };
-
-    // Interface
-    this.fs.copyTpl(
-      this.templatePath('IModule.hx'),
-      this.destinationPath(this.modulePath + this.interfaceName + 'Module.hx'),
-      scope
-    );
-
-    // Class
-    this.fs.copyTpl(
-      this.templatePath('Module.hx'),
-      this.destinationPath(this.modulePath + this.moduleName + 'Module.hx'),
-      scope
-    );
-  }
+    writing: function () {
+        for (var file of this.files) {
+            var scope = {
+                author: this.user.git.name(),
+                package: file.package,
+                className: file.className,
+                interfaceName: file.interfaceName,
+            };
+            this.fs.copyTpl(
+                this.templatePath('IModule.hx'),
+                this.destinationPath(cwd + "/" + file.package.replace(/\./g, "/") + "/" + file.interfaceName + ".hx"),
+                scope
+            );
+            this.fs.copyTpl(
+                this.templatePath('Module.hx'),
+                this.destinationPath(cwd + "/" + file.package.replace(/\./g, "/") + "/" + file.className + ".hx"),
+                scope
+            );
+        }
+    }
 });

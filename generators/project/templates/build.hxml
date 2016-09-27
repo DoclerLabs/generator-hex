@@ -1,0 +1,5 @@
+-lib hexmachina
+-cp src
+-main <%= props.packageName %>.Main
+
+<%= targetOption %>
