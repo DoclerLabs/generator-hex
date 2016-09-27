@@ -6,11 +6,8 @@ var yosay = require('yosay');
 module.exports = yeoman.Base.extend({
   initializing: function () {
     this.log(yosay(
-      'Generating project files for ' + chalk.red('haxedevelop')
+      'Generating project files for ' + chalk.red('HaxeDevelop')
     ));
-
-    this.props = this.config.get('props');
-    this.paths = this.config.get('paths');
   },
 
   writing: {
