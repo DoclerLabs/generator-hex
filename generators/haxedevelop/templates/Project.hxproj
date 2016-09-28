@@ -4,12 +4,12 @@
   <output>
     <movie outputType="Application" />
     <movie input="" />
-    <movie path="bin\Main.js" />
+    <movie path="<%= targetPath %>" />
     <movie fps="0" />
     <movie width="0" />
     <movie height="0" />
     <movie version="1" />
-    <movie platform="JavaScript" />
+    <movie platform="<%= platform %>" />
     <movie background="#FFFFFF" />
   </output>
   <!-- Other classes to be compiled into your SWF -->
@@ -37,7 +37,6 @@
   </build>
   <!-- haxelib libraries -->
   <haxelib>
-    <!-- example: <library name="..." /> -->
 	<library name="hexmachina" />
   </haxelib>
   <!-- Class files to compile (other referenced classes will automatically be included) -->
@@ -55,7 +54,7 @@
   <!-- Other project options -->
   <options>
     <option showHiddenPaths="False" />
-    <option testMovie="Webserver" />
-    <option testMovieCommand="bin/index.html" />
+    <option testMovie="<%= testMovie %>" />
+    <option testMovieCommand="<%= testMovieCommand %>" />
   </options>
 </project>
