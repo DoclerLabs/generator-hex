@@ -8,9 +8,9 @@ import hex.model.ModelDispatcher;
  */
 class <%= model.Model %> extends Model<<%= model.ModelDispatcher %>, <%= model.IModelListener %>> implements <%= model.IModel %>
 {
-	public function new ()
+	public function new()
 	{
-		super ();
+		super();
 	}
 	
 	<% for (var fun of functionsIModelRO) {%>
@@ -27,9 +27,9 @@ class <%= model.Model %> extends Model<<%= model.ModelDispatcher %>, <%= model.I
 
 private class <%= model.ModelDispatcher %> extends ModelDispatcher<<%= model.IModelListener %>> implements <%= model.IModelListener %>
 {
-	public function new ()
+	public function new()
 	{
-		super ();
+		super();
 	}
 	
 	<% for (var fun of functionsIModelListener) {%>

@@ -6,9 +6,11 @@ import hex.log.layout.LogProxyLayout;
 /**
 * Main class for <%= props.appName %>
 */
-class Main {
+class Main
+{
 
-	static function main() {
+	static function main()
+	{
 		#if debug
 		var proxy : LogProxyLayout = new LogProxyLayout();
 		#if js

@@ -2,6 +2,7 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
+var helper = require('../helper');
 
 module.exports = yeoman.Base.extend({
     prompting: function () {
@@ -18,7 +19,7 @@ module.exports = yeoman.Base.extend({
         }, {
             type: 'list',
             name: 'targetPlatform',
-            message: 'Please choose a target platform',
+            message: 'What is your target platform?',
             default: 'js',
             choices: [
                 'js',
@@ -33,7 +34,7 @@ module.exports = yeoman.Base.extend({
 
             this.paths = {
                 // We need to replace dots with slashes
-                packagePath: 'src/' + this.props.packageName.replace(new RegExp('\\.', 'g'), '/')
+                packagePath: this.props.packageName.replace(new RegExp('\\.', 'g'), '/')
             };
         }.bind(this));
     },
@@ -44,18 +45,8 @@ module.exports = yeoman.Base.extend({
                 props: this.props,
                 paths: this.paths
             };
-            if (this.props.targetPlatform === "js") {
-                scope.targetOption = "-js bin/main.js";
-                this.fs.copyTpl(this.templatePath('bin/js.html'), this.destinationPath('bin/index.html'), scope);
-            }
-            else if (this.props.targetPlatform === "flash") {
-                scope.targetOption = "-swf bin/main.swf";
-                this.fs.copyTpl(this.templatePath('bin/flash.html'), this.destinationPath('bin/index.html'), scope);
-            }
-            else if (this.props.targetPlatform === "neko") {
-                scope.targetOption = "-neko bin/main.n";
-                this.fs.copyTpl(this.templatePath('neko.bat'), this.destinationPath('run.bat'), scope);
-            }
+
+            helper.writeTargetTemplates(this, scope);
 
             var packageFiles = [
                 'Main.hx',

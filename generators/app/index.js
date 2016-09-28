@@ -2,17 +2,34 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
+var inquirer = require('inquirer');
 
 module.exports = yeoman.Base.extend({
+    subGenerators: [
+        new inquirer.Separator(chalk.yellow('------Files-----')),
+        'module',
+        'model',
+        new inquirer.Separator(chalk.yellow('----Projects----')),
+        'haxedevelop',
+        'project'
+    ],
+
     initializing: function () {
         // Have Yeoman greet the user.
         this.log(yosay(
-            'Welcome to the fabulous ' + chalk.red('hexMachina') + ' generator!'
+            'Welcome to the fabulous ' + chalk.red('hexMachina') + ' generator!\n\nWhat would you like to generate?'
         ));
-        this.log("Please run one of the following sub-generators:");
-        this.log(chalk.red("module"));
-        this.log(chalk.red("model"));
-        this.log(chalk.red("haxedevelop"));
-        this.log(chalk.red("project"));
+    },
+    prompting: function () {
+        var prompts = [{
+            type: 'list',
+            name: 'generator',
+            message: 'Please choose a sub-generator to call:',
+            choices: this.subGenerators
+        }];
+
+        this.prompt(prompts).then(function (values) {
+            this.composeWith('hex:' + values.generator, {});
+        }.bind(this));
     }
 });
