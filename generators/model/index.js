@@ -101,11 +101,11 @@ module.exports = yeoman.Base.extend({
                     null,
                     function (functions) { //thenCallback
                         if (functions.generateFunctions) {
-                            file.functionsIModelRO = helper.parseFunctionHeadList(functions.getterFunctions);
-                            file.functionsIModel = helper.parseFunctionHeadList(functions.setterFunctions);
-                            file.functionsIModelListener = helper.parseFunctionHeadList(functions.listenerFunctions);
+                            this.functionsIModelRO = helper.parseFunctionHeadList(functions.getterFunctions);
+                            this.functionsIModel = helper.parseFunctionHeadList(functions.setterFunctions);
+                            this.functionsIModelListener = helper.parseFunctionHeadList(functions.listenerFunctions);
                         }
-                }.bind(this)
+                    }.bind(file)
                 );
             }
 
