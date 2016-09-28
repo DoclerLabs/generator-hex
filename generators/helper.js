@@ -85,8 +85,8 @@ module.exports = {
     parseFunctionHeadList: function (list) {
         var array = [];
 
-        var list = list.replace(/\r/g, '\n').split('\n');
-        for (var item of list) {
+        var lst = list.replace(/\r/g, '\n').split('\n');
+        for (var item of lst) {
             var fun = module.exports.parseFunctionHead(item);
             if (fun != '') {
                 array.push(fun);

@@ -4,6 +4,8 @@ var chalk = require('chalk');
 var yosay = require('yosay');
 var inquirer = require('inquirer');
 
+var cwd = process.cwd();
+
 module.exports = yeoman.Base.extend({
     subGenerators: [
         new inquirer.Separator(chalk.yellow('------Files-----')),
@@ -19,6 +21,8 @@ module.exports = yeoman.Base.extend({
         this.log(yosay(
             'Welcome to the fabulous ' + chalk.red('hexMachina') + ' generator!\n\nWhat would you like to generate?'
         ));
+        
+        this.destinationRoot(cwd);
     },
     prompting: function () {
         var prompts = [{

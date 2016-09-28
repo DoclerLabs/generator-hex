@@ -15,7 +15,7 @@ module.exports = yeoman.Base.extend({
             type: 'input',
             name: 'appName',
             message: 'What is the application\'s name?',
-            default: this.appname, // Default to current folder name
+            default: this.appname // Default to current folder name
         }, {
             type: 'input',
             name: 'packageName',

@@ -5,6 +5,9 @@ var helper = require('../helper');
 var cwd = process.cwd();
 
 module.exports = yeoman.Base.extend({
+    initializing: function () {
+        this.destinationRoot(cwd);
+    },
     prompting: function () {
         var prompts = [{
             type: 'input',
@@ -45,16 +48,19 @@ module.exports = yeoman.Base.extend({
                 author: this.user.git.name(),
                 package: file.package,
                 className: file.className,
-                interfaceName: file.interfaceName,
+                interfaceName: file.interfaceName
             };
+
+            var packPath = file.package.replace(/\./g, '/') + '/';
+
             this.fs.copyTpl(
                 this.templatePath('IModule.hx'),
-                this.destinationPath(cwd + "/" + file.package.replace(/\./g, "/") + "/" + file.interfaceName + ".hx"),
+                this.destinationPath(packPath + file.interfaceName + '.hx'),
                 scope
             );
             this.fs.copyTpl(
                 this.templatePath('Module.hx'),
-                this.destinationPath(cwd + "/" + file.package.replace(/\./g, "/") + "/" + file.className + ".hx"),
+                this.destinationPath(packPath + file.className + '.hx'),
                 scope
             );
         }

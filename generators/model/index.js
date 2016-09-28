@@ -23,6 +23,9 @@ var chainPrompt = function (promise, promptFun, preCallback, thenCallback) {
 };
 
 module.exports = yeoman.Base.extend({
+    initializing: function () {
+        this.destinationRoot(cwd);
+    },
     prompting: {
         basic: function () {
             var prompts = [{
@@ -124,7 +127,7 @@ module.exports = yeoman.Base.extend({
                 functionsIModelListener: file.functionsIModelListener
             };
 
-            var packPath = cwd + '/' + file.package.replace(/\./g, '/') + '/';
+            var packPath = file.package.replace(/\./g, '/') + '/';
 
             this.fs.copyTpl(
                 this.templatePath('Model.hx'),
