@@ -16,12 +16,22 @@ module.exports = yeoman.Base.extend({
         'project'
     ],
 
+    constructor: function () {
+        yeoman.Base.apply(this, arguments);
+
+        this.option('currentPackage', {
+            type: String,
+            defaults: null
+        });
+    },
+
+
     initializing: function () {
         // Have Yeoman greet the user.
         this.log(yosay(
             'Welcome to the fabulous ' + chalk.red('hexMachina') + ' generator!\n\nWhat would you like to generate?'
         ));
-        
+
         this.destinationRoot(cwd);
     },
     prompting: function () {
@@ -33,7 +43,9 @@ module.exports = yeoman.Base.extend({
         }];
 
         this.prompt(prompts).then(function (values) {
-            this.composeWith('hex:' + values.generator, {});
+            this.composeWith('hex:' + values.generator, {
+                options: this.options
+            });
         }.bind(this));
     }
 });

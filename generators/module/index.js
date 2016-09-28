@@ -5,7 +5,20 @@ var helper = require('../helper');
 var cwd = process.cwd();
 
 module.exports = yeoman.Base.extend({
+    constructor: function () {
+        yeoman.Base.apply(this, arguments);
+
+        this.option('currentPackage', {
+            type: String,
+            defaults: null
+        });
+    },
     initializing: function () {
+        if (this.options.currentPackage !== null)
+            this.runByPlugin = true;
+        else
+            this.runByPlugin = false;
+
         this.destinationRoot(cwd);
     },
     prompting: function () {
@@ -21,22 +34,24 @@ module.exports = yeoman.Base.extend({
             this.files = [];
 
             helper.iterateCommaList(values.moduleNames, function (moduleName) {
+                if (moduleName === '')
+                    return;
+
                 var parts = moduleName.split('.');
                 var name = parts.pop();
-                if (!name.endsWith("Module")) {
-                    name += "Module";
-                }
-                var pack = parts.join(".");
+                var pack = parts.join('.');
 
-                if (moduleName === "") {
-                    return;
-                }
+                if (!name.endsWith('Module'))
+                    name += 'Module';
+
+                if (pack == '')
+                    pack = moduleName.toLowerCase();
 
                 this.files.push({
                     name: name,
                     package: pack,
                     className: name,
-                    interfaceName: "I" + name
+                    interfaceName: 'I' + name
                 });
             }.bind(this));
         }.bind(this));
@@ -44,9 +59,13 @@ module.exports = yeoman.Base.extend({
 
     writing: function () {
         for (var file of this.files) {
+            var pack = file.package;
+            if (this.runByPlugin)
+                pack = this.options.currentPackage + '.' + pack;
+
             var scope = {
                 author: this.user.git.name(),
-                package: file.package,
+                package: pack,
                 className: file.className,
                 interfaceName: file.interfaceName
             };
