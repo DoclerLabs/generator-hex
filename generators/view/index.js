@@ -10,7 +10,10 @@ module.exports = yeoman.Base.extend({
     constructor: function () {
         yeoman.Base.apply(this, arguments);
 
-        fileHelper.registerPackageOption(this);
+        this.option('currentPackage', {
+            type: String,
+            defaults: null
+        });
     },
     initializing: function () {
         this.runByPlugin = fileHelper.checkPluginCall(this);
@@ -64,7 +67,6 @@ module.exports = yeoman.Base.extend({
             var pack = file.package;
             if (this.runByPlugin)
                 pack = this.options.currentPackage + '.' + pack;
-            
             var scope = {
                 author: this.user.git.name(),
                 package: pack,

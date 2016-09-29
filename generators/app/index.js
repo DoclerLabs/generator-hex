@@ -3,6 +3,7 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var inquirer = require('inquirer');
+var fileHelper = require('../filehelper');
 
 var cwd = process.cwd();
 
@@ -19,10 +20,7 @@ module.exports = yeoman.Base.extend({
     constructor: function () {
         yeoman.Base.apply(this, arguments);
 
-        this.option('currentPackage', {
-            type: String,
-            defaults: null
-        });
+        fileHelper.registerPackageOption(this);
     },
 
 

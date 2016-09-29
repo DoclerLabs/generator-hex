@@ -2,7 +2,7 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
-var helper = require('../helper');
+var projHelper = require('../projecthelper');
 
 module.exports = yeoman.Base.extend({
     prompting: function () {
@@ -10,12 +10,18 @@ module.exports = yeoman.Base.extend({
             type: 'input',
             name: 'appName',
             message: 'What is the application\'s name?',
-            default: this.appname, // Default to current folder name
+            default: this.appname // Default to current folder name
         }, {
             type: 'input',
             name: 'packageName',
-            message: 'What is the application\'s package name?',
+            validate: function (input) {
+                if (projHelper.validateHaxePackage(input))
+                    return true;
+
+                return "Invalid package: '" + input + "'";
+            },
             default: 'com.example.' + this.appname,
+            message: 'What is the application\'s package name?'
         }, {
             type: 'list',
             name: 'targetPlatform',
@@ -46,7 +52,7 @@ module.exports = yeoman.Base.extend({
                 paths: this.paths
             };
 
-            helper.writeTargetTemplates(this, scope);
+            projHelper.writeTargetTemplates(this, scope);
 
             var packageFiles = [
                 'Main.hx',

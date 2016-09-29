@@ -2,7 +2,7 @@
 var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
-var helper = require('../helper');
+var projHelper = require('../projecthelper');
 
 module.exports = yeoman.Base.extend({
     initializing: function () {
@@ -20,7 +20,7 @@ module.exports = yeoman.Base.extend({
             type: 'input',
             name: 'packageName',
             validate: function (input) {
-                if (helper.validateHaxePackage(input))
+                if (projHelper.validateHaxePackage(input))
                     return true;
 
                 return "Invalid package: '" + input + "'";
@@ -59,7 +59,7 @@ module.exports = yeoman.Base.extend({
                 mainPath: mainPath
             };
 
-            helper.writeTargetTemplates(this, scope);
+            projHelper.writeTargetTemplates(this, scope);
 
             var packageFiles = [
                 'Main.hx',

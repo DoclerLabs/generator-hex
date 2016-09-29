@@ -1,5 +1,6 @@
 'use strict';
 var yeoman = require('yeoman-generator');
+var fileHelper = require('../filehelper');
 var helper = require('../helper');
 
 var cwd = process.cwd();
@@ -8,16 +9,10 @@ module.exports = yeoman.Base.extend({
     constructor: function () {
         yeoman.Base.apply(this, arguments);
 
-        this.option('currentPackage', {
-            type: String,
-            defaults: null
-        });
+        fileHelper.registerPackageOption(this);
     },
     initializing: function () {
-        if (this.options.currentPackage !== null)
-            this.runByPlugin = true;
-        else
-            this.runByPlugin = false;
+        this.runByPlugin = fileHelper.checkPluginCall(this);
 
         this.destinationRoot(cwd);
     },
@@ -25,7 +20,7 @@ module.exports = yeoman.Base.extend({
         var prompts = [{
             type: 'input',
             name: 'moduleNames',
-            validate: helper.validateCommaTypeList,
+            validate: fileHelper.validateCommaTypeList,
             message: 'Please list module names (seperated by commas, including package):'
         }];
 
