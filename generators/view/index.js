@@ -6,6 +6,7 @@ var helper = require('../helper');
 
 var cwd = process.cwd();
 
+//TODO: finish view
 module.exports = yeoman.Base.extend({
     constructor: function () {
         yeoman.Base.apply(this, arguments);
@@ -70,27 +71,12 @@ module.exports = yeoman.Base.extend({
                 package: file.fullPackage,
                 model: file
             };
-            
-            this.fs.copyTpl(
-                this.templatePath('Model.hx'),
-                this.destinationPath(fileHelper.getFilePath(file.package, file.Model)),
-                scope
-            );
-            this.fs.copyTpl(
-                this.templatePath('IModel.hx'),
-                this.destinationPath(fileHelper.getFilePath(file.package, file.IModel)),
-                scope
-            );
-            this.fs.copyTpl(
-                this.templatePath('IModelListener.hx'),
-                this.destinationPath(fileHelper.getFilePath(file.package, file.IModelListener)),
-                scope
-            );
-            this.fs.copyTpl(
-                this.templatePath('IModelRO.hx'),
-                this.destinationPath(fileHelper.getFilePath(file.package, file.IModelRO)),
-                scope
-            );
+
+            var files = new Map([
+                
+            ]);
+
+            fileHelper.writeFilesToPackage(this, files, file.package, scope);
         }
     }
 });

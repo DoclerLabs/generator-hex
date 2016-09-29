@@ -67,16 +67,12 @@ module.exports = yeoman.Base.extend({
                 interfaceName: file.interfaceName
             };
 
-            this.fs.copyTpl(
-                this.templatePath('IModule.hx'),
-                this.destinationPath(fileHelper.getFilePath(file.package, file.interfaceName)),
-                scope
-            );
-            this.fs.copyTpl(
-                this.templatePath('Module.hx'),
-                this.destinationPath(fileHelper.getFilePath(file.package, file.className)),
-                scope
-            );
+            var files = new Map([
+                ['IModule.h', file.interfaceName],
+                ['Module.hx', file.className]
+            ]);
+
+            fileHelper.writeFilesToPackage(this, files, file.package, scope);
         }
     }
 });
