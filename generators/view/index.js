@@ -10,10 +10,7 @@ module.exports = yeoman.Base.extend({
     constructor: function () {
         yeoman.Base.apply(this, arguments);
 
-        this.option('currentPackage', {
-            type: String,
-            defaults: null
-        });
+        fileHelper.registerPackageOption(this);
     },
     initializing: function () {
         this.runByPlugin = fileHelper.checkPluginCall(this);
@@ -23,37 +20,41 @@ module.exports = yeoman.Base.extend({
     prompting: function () {
         var prompts = [{
             type: 'input',
-            name: 'modelNames',
+            name: 'viewNames',
             validate: fileHelper.validateCommaTypeList,
-            message: 'List model names (seperated by commas, including package):'
+            message: 'List view names (separated by commas, including package):'
         }];
 
         return this.prompt(prompts).then(function (values) {
             this.props = values;
             this.files = [];
 
-            helper.iterateCommaList(values.modelNames, function (modelName) {
-                if (modelName === '')
+            helper.iterateCommaList(values.viewNames, function (viewName) {
+                if (viewName === '')
                     return;
 
-                var parts = modelName.split('.');
+                var parts = viewName.split('.');
                 var name = parts.pop();
                 var pack = parts.join('.');
 
-                if (!name.endsWith('Model'))
-                    name += 'Model';
+                if (!name.endsWith('View'))
+                    name += 'View';
 
-                if (this.runByPlugin)
-                    pack = 'model' + pack;
+                var fullPack = pack;
+                if (this.runByPlugin) {
+                    if (!this.options.currentPackage.endsWith('view')) {
+                        pack = helper.joinIfNotEmpty(['view', pack], '.');
+                    }
+
+                    fullPack = helper.joinIfNotEmpty([this.options.currentPackage, pack], '.');
+                }
 
                 var file = {
                     name: name,
                     package: pack,
-                    Model: name,
-                    IModel: 'I' + name,
-                    IModelListener: 'I' + name + 'Listener',
-                    IModelRO: 'I' + name + 'RO',
-                    ModelDispatcher: name + 'Dispatcher'
+                    fullPackage: fullPack,
+                    View: name,
+                    ViewHelper: 'I' + name
                 };
 
                 this.files.push(file);
@@ -64,35 +65,30 @@ module.exports = yeoman.Base.extend({
 
     writing: function () {
         for (var file of this.files) {
-            var pack = file.package;
-            if (this.runByPlugin)
-                pack = this.options.currentPackage + '.' + pack;
             var scope = {
                 author: this.user.git.name(),
-                package: pack,
+                package: file.fullPackage,
                 model: file
             };
-
-            var packPath = file.package.replace(/\./g, '/') + '/';
-
+            
             this.fs.copyTpl(
                 this.templatePath('Model.hx'),
-                this.destinationPath(packPath + file.Model + '.hx'),
+                this.destinationPath(fileHelper.getFilePath(file.package, file.Model)),
                 scope
             );
             this.fs.copyTpl(
                 this.templatePath('IModel.hx'),
-                this.destinationPath(packPath + file.IModel + '.hx'),
+                this.destinationPath(fileHelper.getFilePath(file.package, file.IModel)),
                 scope
             );
             this.fs.copyTpl(
                 this.templatePath('IModelListener.hx'),
-                this.destinationPath(packPath + file.IModelListener + '.hx'),
+                this.destinationPath(fileHelper.getFilePath(file.package, file.IModelListener)),
                 scope
             );
             this.fs.copyTpl(
                 this.templatePath('IModelRO.hx'),
-                this.destinationPath(packPath + file.IModelRO + '.hx'),
+                this.destinationPath(fileHelper.getFilePath(file.package, file.IModelRO)),
                 scope
             );
         }

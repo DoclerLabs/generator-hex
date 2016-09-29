@@ -10,5 +10,14 @@ module.exports = {
             name = name.trim();
             callback(name);
         }
+    },
+
+    joinIfNotEmpty(strings, separator) {
+        var result = [];
+        for (var str of strings) {
+            if (str != '' && str != null && str != undefined)
+                result.push(str);
+        }
+        return result.join(separator);
     }
 };

@@ -4,11 +4,27 @@ var helper = require('./helper');
 module.exports = {
     typeRegex: /(([a-z]|\d|_)+\.)*[A-Z]\w*/,
 
+    writeFilesToPackage: function (generator, files, pack, scope) {
+        for (var [template, inPack] of files.entries()) {
+            generator.fs.copyTpl(
+                generator.templatePath(template),
+                generator.destinationPath(module.exports.getFilePath(pack, inPack)),
+                scope
+            );
+        }
+    },
+
     registerPackageOption: function (generator) {
         generator.option('currentPackage', {
             type: String,
             defaults: null
         });
+    },
+
+    getFilePath: function (pack, module) {
+        var packPath = pack.replace(/\./g, '/');
+
+        return helper.joinIfNotEmpty([packPath, module + '.hx'], '/');
     },
 
     checkPluginCall: function (generator) {

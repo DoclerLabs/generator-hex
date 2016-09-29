@@ -21,7 +21,7 @@ module.exports = yeoman.Base.extend({
             type: 'input',
             name: 'moduleNames',
             validate: fileHelper.validateCommaTypeList,
-            message: 'Please list module names (seperated by commas, including package):'
+            message: 'Please list module names (separated by commas, including package):'
         }];
 
         return this.prompt(prompts).then(function (values) {
@@ -42,9 +42,15 @@ module.exports = yeoman.Base.extend({
                 if (pack == '')
                     pack = moduleName.toLowerCase();
 
+                var fullPack = pack;
+                if (this.runByPlugin)
+                    fullPack = this.options.currentPackage + '.' + pack;
+
+
                 this.files.push({
                     name: name,
                     package: pack,
+                    fullPackage: fullPack,
                     className: name,
                     interfaceName: 'I' + name
                 });
@@ -54,27 +60,21 @@ module.exports = yeoman.Base.extend({
 
     writing: function () {
         for (var file of this.files) {
-            var pack = file.package;
-            if (this.runByPlugin)
-                pack = this.options.currentPackage + '.' + pack;
-
             var scope = {
                 author: this.user.git.name(),
-                package: pack,
+                package: file.fullPackage,
                 className: file.className,
                 interfaceName: file.interfaceName
             };
 
-            var packPath = file.package.replace(/\./g, '/') + '/';
-
             this.fs.copyTpl(
                 this.templatePath('IModule.hx'),
-                this.destinationPath(packPath + file.interfaceName + '.hx'),
+                this.destinationPath(fileHelper.getFilePath(file.package, file.interfaceName)),
                 scope
             );
             this.fs.copyTpl(
                 this.templatePath('Module.hx'),
-                this.destinationPath(packPath + file.className + '.hx'),
+                this.destinationPath(fileHelper.getFilePath(file.package, file.className)),
                 scope
             );
         }

@@ -22,7 +22,7 @@ module.exports = yeoman.Base.extend({
             type: 'input',
             name: 'modelNames',
             validate: fileHelper.validateCommaTypeList,
-            message: 'List model names (seperated by commas, including package):'
+            message: 'List model names (separated by commas, including package):'
         }];
 
         return this.prompt(prompts).then(function (values) {
@@ -40,12 +40,19 @@ module.exports = yeoman.Base.extend({
                 if (!name.endsWith('Model'))
                     name += 'Model';
 
-                if (this.runByPlugin)
-                    pack = 'model' + pack;
+                var fullPack = pack;
+                if (this.runByPlugin) {
+                    if (!this.options.currentPackage.endsWith('model')) {
+                        pack = helper.joinIfNotEmpty(['model', pack], '.');
+                    }
+
+                    fullPack = helper.joinIfNotEmpty([this.options.currentPackage, pack], '.');
+                }
 
                 var file = {
                     name: name,
                     package: pack,
+                    fullPackage: fullPack,
                     Model: name,
                     IModel: 'I' + name,
                     IModelListener: 'I' + name + 'Listener',
@@ -58,41 +65,23 @@ module.exports = yeoman.Base.extend({
 
         }.bind(this));
     },
-
     writing: function () {
         for (var file of this.files) {
-            var pack = file.package;
-            if (this.runByPlugin)
-                pack = this.options.currentPackage + '.' + pack;
-            
+            this.log(file);
             var scope = {
                 author: this.user.git.name(),
-                package: pack,
+                package: file.fullPackage,
                 model: file
             };
 
-            var packPath = file.package.replace(/\./g, '/') + '/';
+            var files = new Map([
+                ['Model.hx', file.Model],
+                ['IModel.hx', file.IModel],
+                ['IModelListener.hx', file.IModelListener],
+                ['IModelRO.hx', file.IModelRO]
+            ]);
 
-            this.fs.copyTpl(
-                this.templatePath('Model.hx'),
-                this.destinationPath(packPath + file.Model + '.hx'),
-                scope
-            );
-            this.fs.copyTpl(
-                this.templatePath('IModel.hx'),
-                this.destinationPath(packPath + file.IModel + '.hx'),
-                scope
-            );
-            this.fs.copyTpl(
-                this.templatePath('IModelListener.hx'),
-                this.destinationPath(packPath + file.IModelListener + '.hx'),
-                scope
-            );
-            this.fs.copyTpl(
-                this.templatePath('IModelRO.hx'),
-                this.destinationPath(packPath + file.IModelRO + '.hx'),
-                scope
-            );
+            fileHelper.writeFilesToPackage(this, files, file.package, scope);
         }
     }
 });
