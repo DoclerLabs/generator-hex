@@ -8,9 +8,9 @@ var packageName = 'org.hexmachina.hexgeneratortest';
 var targetPlatform = 'neko';
 var packagePath = 'src/org/hexmachina/hexgeneratortest';
 
-describe('generator-hex:haxedevelop', function () {
+describe('generator-hex:project', function () {
     before(function () {
-        return helpers.run(path.join(__dirname, '../generators/haxedevelop'))
+        return helpers.run(path.join(__dirname, '../generators/project'))
             .withPrompts({
                 appName: appName,
                 packageName: packageName,
@@ -21,15 +21,14 @@ describe('generator-hex:haxedevelop', function () {
 
     it('creates files', function () {
         var expected = [
-            'hexGeneratorTest.hxproj',
-            'hexGeneratorTest.txt',
+            'build.hxml',
+            'run.bat',
             packagePath + '/Main.hx',
             packagePath + '/configuration/context.xml',
             packagePath + '/configuration/ModuleConfiguration.xml',
             packagePath + '/configuration/ServiceConfiguration.xml',
             packagePath + '/configuration/ViewConfiguration.xml'
         ];
-
         assert.file(expected);
     });
 });
