@@ -34,12 +34,17 @@ module.exports = yeoman.Base.extend({
 
                 var parts = viewName.split('.');
                 var name = parts.pop();
+                var view = name;
                 var pack = parts.join('.');
 
-                if (name.endsWith('View'))
+                if (name.endsWith('View')) {
                     name += 'Helper';
-                else if (!name.endsWith('ViewHelper'))
+                } else if (name.endsWith('ViewHelper')) {
+                    view = name.substr(0, name.length - 6);
+                } else {
                     name += 'ViewHelper';
+                    view += 'View';
+                }
 
                 var fullPack = pack;
                 if (this.runByPlugin) {
@@ -53,7 +58,7 @@ module.exports = yeoman.Base.extend({
                     name: name,
                     package: pack,
                     fullPackage: fullPack,
-                    IView: 'I' + name,
+                    IView: 'I' + view,
                     ViewHelper: name
                 };
 
