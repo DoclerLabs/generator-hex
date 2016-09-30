@@ -42,7 +42,7 @@ module.exports = yeoman.Base.extend({
 
                 var fullPack = pack;
                 if (this.runByPlugin) {
-                    if (!this.options.currentPackage.endsWith('model')) {
+                    if (!this.options.currentPackage.endsWith('model') && !pack.startsWith('model')) {
                         pack = helper.joinIfNotEmpty(['model', pack], '.');
                     }
 
@@ -67,7 +67,6 @@ module.exports = yeoman.Base.extend({
     },
     writing: function () {
         for (var file of this.files) {
-            this.log(file);
             var scope = {
                 author: this.user.git.name(),
                 package: file.fullPackage,

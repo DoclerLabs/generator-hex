@@ -12,6 +12,7 @@ module.exports = yeoman.Base.extend({
         new inquirer.Separator(chalk.yellow('------Files-----')),
         'module',
         'model',
+        'viewhelper',
         new inquirer.Separator(chalk.yellow('----Projects----')),
         'haxedevelop',
         'project'
