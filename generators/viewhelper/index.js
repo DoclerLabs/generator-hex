@@ -38,12 +38,14 @@ module.exports = yeoman.Base.extend({
                 var name = parts.pop();
                 var pack = parts.join('.');
 
-                if (!name.endsWith('View'))
-                    name += 'View';
+                if (name.endsWith('View'))
+                    name += 'Helper';
+                else if (!name.endsWith('ViewHelper'))
+                    name += 'ViewHelper';
 
                 var fullPack = pack;
                 if (this.runByPlugin) {
-                    if (!this.options.currentPackage.endsWith('view')) {
+                    if (!this.options.currentPackage.endsWith('view') && !pack.startsWith('view')) {
                         pack = helper.joinIfNotEmpty(['view', pack], '.');
                     }
 
@@ -54,8 +56,8 @@ module.exports = yeoman.Base.extend({
                     name: name,
                     package: pack,
                     fullPackage: fullPack,
-                    View: name,
-                    ViewHelper: 'I' + name
+                    IView: 'I' + name,
+                    ViewHelper: name
                 };
 
                 this.files.push(file);
@@ -69,11 +71,12 @@ module.exports = yeoman.Base.extend({
             var scope = {
                 author: this.user.git.name(),
                 package: file.fullPackage,
-                model: file
+                view: file
             };
 
             var files = new Map([
-                
+                ['IView.hx', file.IView],
+                ['ViewHelper.hx', file.ViewHelper]
             ]);
 
             fileHelper.writeFilesToPackage(this, files, file.package, scope);
