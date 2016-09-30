@@ -1,4 +1,4 @@
-# generator-hex [![NPM version][npm-image]][npm-url] [![Build Status][travis-image]][travis-url] [![Dependency Status][daviddm-image]][daviddm-url] [![Coverage percentage][coveralls-image]][coveralls-url]
+# generator-hex
 > Project generator for hexMachina framework
 
 ## Installation
@@ -7,14 +7,24 @@ First, install [Yeoman](http://yeoman.io) and generator-hex using [npm](https://
 
 ```bash
 npm install -g yo
-npm install -g generator-hex
+npm install -g https://github.com/DoclerLabs/generator-hex.git
 ```
 
-Then generate your new project:
+Then use the hexMachina generator like this:
 
 ```bash
 yo hex
 ```
+
+You can also run a sub-generator directly like this:
+
+```bash
+yo hex:module
+```
+
+Make sure to run file generators from your source folder.
+
+For even more convenient use, a FlashDevelop plugin will be available soon.
 
 ## Getting To Know Yeoman
 
@@ -22,17 +32,3 @@ yo hex
  * Yeoman is a person with feelings and opinions, but is very easy to work with.
  * Yeoman can be too opinionated at times but is easily convinced not to be.
  * Feel free to [learn more about Yeoman](http://yeoman.io/).
-
-## License
-
- © [Andras Szell]()
-
-
-[npm-image]: https://badge.fury.io/js/generator-hex.svg
-[npm-url]: https://npmjs.org/package/generator-hex
-[travis-image]: https://travis-ci.org/DoclerLabs/generator-hex.svg?branch=master
-[travis-url]: https://travis-ci.org/DoclerLabs/generator-hex
-[daviddm-image]: https://david-dm.org/DoclerLabs/generator-hex.svg?theme=shields.io
-[daviddm-url]: https://david-dm.org/DoclerLabs/generator-hex
-[coveralls-image]: https://coveralls.io/repos/DoclerLabs/generator-hex/badge.svg
-[coveralls-url]: https://coveralls.io/r/DoclerLabs/generator-hex
