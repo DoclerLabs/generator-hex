@@ -23,7 +23,7 @@ module.exports = yeoman.Base.extend({
                 if (projHelper.validateHaxePackage(input))
                     return true;
 
-                return "Invalid package: '" + input + "'";
+                return 'Invalid package: "' + input + '"';
             },
             default: 'com.example.' + this.appname.toLowerCase(),
             message: 'What is the application\'s package name?'
@@ -68,9 +68,8 @@ module.exports = yeoman.Base.extend({
                 'configuration/ServiceConfiguration.xml',
                 'configuration/ViewConfiguration.xml'
             ];
-            for (var file of packageFiles) {
+            for (var file of packageFiles)
                 this.fs.copyTpl(this.templatePath('src/' + file), this.destinationPath('src/' + this.paths.packagePath + '/' + file), scope);
-            }
 
             // Copy hxproj
             this.fs.copyTpl(this.templatePath('Project.hxproj'), this.destinationPath(this.props.appName + '.hxproj'), scope);

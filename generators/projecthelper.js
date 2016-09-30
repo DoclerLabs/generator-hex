@@ -6,11 +6,11 @@ module.exports = {
 
     /** Checks whether the given string is a valid Haxe package (e.g: com.example.test2) */
     validateHaxePackage: function (pack) {
-        if (pack == "")
+        if (pack === '')
             return true;
 
         var matched = pack.match(this.packRegex);
-        return matched != null && matched[0].length == pack.length;
+        return matched !== null && matched[0].length === pack.length;
     },
 
     getProjectPromts: function (defaultName) {
@@ -26,7 +26,7 @@ module.exports = {
                 if (helper.validateHaxePackage(input))
                     return true;
 
-                return "Invalid package: '" + input + "'";
+                return 'Invalid package: "' + input + '"';
             },
             default: 'com.example.' + defaultName,
             message: 'What is the application\'s package name?'
@@ -42,36 +42,34 @@ module.exports = {
             ]
         }];
     },
-    
+
     /** Generates some files for execution and modifies the scope according to target (only used by project generators) */
     writeTargetTemplates: function (generator, scope) {
-        if (scope.props.targetPlatform === "js") {
+        if (scope.props.targetPlatform === 'js') {
             scope.platform = 'JavaScript';
             scope.testMovie = 'Webserver';
             scope.testMovieCommand = 'bin/index.html';
-            scope.targetOption = "-js bin/main.js";
+            scope.targetOption = '-js bin/main.js';
             scope.targetPath = 'bin/main.js';
 
             generator.fs.copyTpl(generator.templatePath('bin/js.html'), generator.destinationPath('bin/index.html'), scope);
-        }
-        else if (scope.props.targetPlatform === "flash") {
+        } else if (scope.props.targetPlatform === 'flash') {
             scope.platform = 'Flash Player';
             scope.testMovie = 'Webserver';
             scope.testMovieCommand = 'bin/index.html';
-            scope.targetOption = "-swf bin/main.swf";
+            scope.targetOption = '-swf bin/main.swf';
             scope.targetPath = 'bin/main.swf';
 
             generator.fs.copyTpl(generator.templatePath('bin/flash.html'), generator.destinationPath('bin/index.html'), scope);
-        }
-        else if (scope.props.targetPlatform === "neko") {
+        } else if (scope.props.targetPlatform === 'neko') {
             scope.platform = 'Neko';
             scope.testMovie = 'OpenDocument';
             scope.testMovieCommand = 'run.bat';
-            scope.targetOption = "-neko bin/main.n";
+            scope.targetOption = '-neko bin/main.n';
             scope.targetPath = 'bin/main.n';
 
             generator.fs.copyTpl(generator.templatePath('neko.bat'), generator.destinationPath('run.bat'), scope);
         }
-    },
+    }
 
 };

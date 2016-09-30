@@ -39,13 +39,12 @@ module.exports = yeoman.Base.extend({
                 if (!name.endsWith('Module'))
                     name += 'Module';
 
-                if (pack == '')
+                if (pack === '')
                     pack = moduleName.toLowerCase();
 
                 var fullPack = pack;
                 if (this.runByPlugin)
                     fullPack = this.options.currentPackage + '.' + pack;
-
 
                 this.files.push({
                     name: name,

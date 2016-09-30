@@ -41,13 +41,12 @@ module.exports = {
      * Returns true if all elements are valid, returns an error message otherwise */
     validateCommaTypeList: function (list) {
         var ret = true;
-        helper.iterateCommaList(list, function(mod) {
-            if (!module.exports.validateHaxeType(mod)) {
+        helper.iterateCommaList(list, function (mod) {
+            if (!module.exports.validateHaxeType(mod))
                 ret = false;
-            }
         });
         if (!ret)
-            return "Not a valid type name: '" + mod + "'";
+            return 'Not a valid type list: "' + list + '"';
 
         return true;
     }

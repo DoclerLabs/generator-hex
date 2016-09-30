@@ -1,6 +1,5 @@
 'use strict';
 var yeoman = require('yeoman-generator');
-var chalk = require('chalk');
 var fileHelper = require('../filehelper');
 var helper = require('../helper');
 
@@ -42,9 +41,8 @@ module.exports = yeoman.Base.extend({
 
                 var fullPack = pack;
                 if (this.runByPlugin) {
-                    if (!this.options.currentPackage.endsWith('model') && !pack.startsWith('model')) {
+                    if (!this.options.currentPackage.endsWith('model') && !pack.startsWith('model'))
                         pack = helper.joinIfNotEmpty(['model', pack], '.');
-                    }
 
                     fullPack = helper.joinIfNotEmpty([this.options.currentPackage, pack], '.');
                 }
@@ -62,7 +60,6 @@ module.exports = yeoman.Base.extend({
 
                 this.files.push(file);
             }.bind(this));
-
         }.bind(this));
     },
     writing: function () {

@@ -23,8 +23,6 @@ module.exports = yeoman.Base.extend({
 
         fileHelper.registerPackageOption(this);
     },
-
-
     initializing: function () {
         // Have Yeoman greet the user.
         this.log(yosay(
