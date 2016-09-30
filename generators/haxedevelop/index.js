@@ -66,7 +66,7 @@ module.exports = yeoman.Base.extend({
                 'configuration/context.xml',
                 'configuration/ModuleConfiguration.xml',
                 'configuration/ServiceConfiguration.xml',
-                'configuration/ViewConfigurationJS.xml'
+                'configuration/ViewConfiguration.xml'
             ];
             for (var file of packageFiles) {
                 this.fs.copyTpl(this.templatePath('src/' + file), this.destinationPath('src/' + this.paths.packagePath + '/' + file), scope);
