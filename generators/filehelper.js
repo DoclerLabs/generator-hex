@@ -34,7 +34,7 @@ module.exports = {
     /** Checks whether the given string is a valid Haxe type path (e.g: com.example2.Test) */
     validateHaxeType: function (type) {
         var matched = type.match(this.typeRegex);
-        return matched != null && matched[0].length == type.length;
+        return matched !== null && matched[0].length === type.length;
     },
 
     /** Calls iterateCommaList and uses validateHaxeType on every element.
@@ -45,7 +45,7 @@ module.exports = {
             if (!module.exports.validateHaxeType(mod)) {
                 ret = false;
             }
-        }.bind(this));
+        });
         if (!ret)
             return "Not a valid type name: '" + mod + "'";
 

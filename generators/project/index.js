@@ -20,7 +20,7 @@ module.exports = yeoman.Base.extend({
 
                 return "Invalid package: '" + input + "'";
             },
-            default: 'com.example.' + this.appname,
+            default: 'com.example.' + this.appname.toLowerCase(),
             message: 'What is the application\'s package name?'
         }, {
             type: 'list',

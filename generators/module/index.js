@@ -68,7 +68,7 @@ module.exports = yeoman.Base.extend({
             };
 
             var files = new Map([
-                ['IModule.h', file.interfaceName],
+                ['IModule.hx', file.interfaceName],
                 ['Module.hx', file.className]
             ]);
 
