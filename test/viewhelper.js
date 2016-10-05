@@ -7,6 +7,7 @@ describe('generator-hex:viewhelper', function () {
     before(function () {
         return helpers.run(path.join(__dirname, '../generators/viewhelper'))
             .withPrompts({
+                currentPackage: '',
                 viewNames: 'Test,example.TestView, example.ExampleViewHelper'
             })
             .toPromise();

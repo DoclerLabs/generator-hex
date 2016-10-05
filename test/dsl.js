@@ -7,6 +7,7 @@ describe('generator-hex:dsl', function () {
     before(function () {
         return helpers.run(path.join(__dirname, '../generators/dsl'))
             .withPrompts({
+                currentPackage: '',
                 fileNames: 'Test.xml,example/Test',
                 rootTag: 'test'
             })

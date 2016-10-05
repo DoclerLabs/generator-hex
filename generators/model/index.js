@@ -38,11 +38,10 @@ module.exports = yeoman.Base.extend({
                 if (!name.endsWith('Model'))
                     name += 'Model';
 
-                var fullPack = pack;
                 if (!this.options.currentPackage.endsWith('model') && !pack.startsWith('model'))
                     pack = helper.joinIfNotEmpty(['model', pack], '.');
 
-                fullPack = helper.joinIfNotEmpty([this.options.currentPackage, pack], '.');
+                var fullPack = helper.joinIfNotEmpty([this.options.currentPackage, pack], '.');
 
                 var file = {
                     name: name,

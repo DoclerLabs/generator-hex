@@ -7,6 +7,7 @@ describe('generator-hex:module', function () {
     before(function () {
         return helpers.run(path.join(__dirname, '../generators/module'))
             .withPrompts({
+                currentPackage: '',
                 moduleNames: 'Test,example.Test'
             })
             .toPromise();
