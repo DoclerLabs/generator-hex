@@ -19,7 +19,7 @@ module.exports = yeoman.Base.extend({
             type: 'input',
             name: 'viewNames',
             validate: fileHelper.validateCommaTypeList,
-            message: 'List view names (separated by commas, including package):'
+            message: 'List view names (separated by commas):\n'
         }];
         fileHelper.addCurrentPackagePrompt(this, prompts);
 

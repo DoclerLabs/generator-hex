@@ -46,7 +46,7 @@ module.exports = {
                     generator.options.currentPackage = input;
                     return input;
                 },
-                message: 'What package are you currently in (you can also pass this by command line option "currentPackage")?'
+                message: 'What package are you currently in (you can also pass this by command line option "currentPackage")?\n'
             });
         }
     },

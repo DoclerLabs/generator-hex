@@ -30,7 +30,7 @@ module.exports = yeoman.Base.extend({
 
                 return ret;
             },
-            message: 'List DSL files (separated by commas):'
+            message: 'List DSL files (separated by commas):\n'
         }, {
             type: 'input',
             name: 'rootTag',

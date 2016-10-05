@@ -19,7 +19,7 @@ module.exports = yeoman.Base.extend({
             type: 'input',
             name: 'moduleNames',
             validate: fileHelper.validateCommaTypeList,
-            message: 'Please list module names (separated by commas, including package):'
+            message: 'Please list module names (separated by commas):\n'
         }];
         fileHelper.addCurrentPackagePrompt(this, prompts);
 
