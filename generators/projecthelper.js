@@ -17,7 +17,6 @@ module.exports = {
 
                 return 'Invalid package: "' + input + '"';
             },
-            default: 'com.example.' + defaultName,
             message: 'What is the application\'s package name?'
         }, {
             type: 'list',

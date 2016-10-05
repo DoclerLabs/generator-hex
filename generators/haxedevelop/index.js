@@ -12,33 +12,7 @@ module.exports = yeoman.Base.extend({
         ));
     },
     prompting: function () {
-        var prompts = [{
-            type: 'input',
-            name: 'appName',
-            message: 'What is the application\'s name?',
-            default: this.appname // Default to current folder name
-        }, {
-            type: 'input',
-            name: 'packageName',
-            validate: function (input) {
-                if (helper.validateHaxePackage(input))
-                    return true;
-
-                return 'Invalid package: "' + input + '"';
-            },
-            default: 'com.example.' + this.appname.toLowerCase(),
-            message: 'What is the application\'s package name?'
-        }, {
-            type: 'list',
-            name: 'targetPlatform',
-            message: 'What is your target platform?',
-            default: 'js',
-            choices: [
-                'js',
-                'flash',
-                'neko'
-            ]
-        }];
+        var prompts = projHelper.getProjectPromts(this.appname);
 
         return this.prompt(prompts).then(function (values) {
             this.props = values;
