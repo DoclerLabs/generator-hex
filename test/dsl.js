@@ -8,6 +8,7 @@ describe('generator-hex:dsl', function () {
         return helpers.run(path.join(__dirname, '../generators/dsl'))
             .withPrompts({
                 fileNames: 'Test.xml,example/Test',
+                rootTag: 'test'
             })
             .toPromise();
     });
@@ -15,7 +16,7 @@ describe('generator-hex:dsl', function () {
     it('creates files', function () {
         var expected = [
             'Test.xml',
-            'example/Test.xml',
+            'example/Test.xml'
         ];
 
         assert.file(expected);
