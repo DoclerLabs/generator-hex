@@ -41,7 +41,7 @@ module.exports = yeoman.Base.extend({
                 if (pack === '')
                     pack = moduleName.toLowerCase();
 
-                var fullPack = helper.joinIfNotEmpty(this.options.currentPackage + '.' + pack);
+                var fullPack = helper.joinIfNotEmpty([this.options.currentPackage, pack], '.');
 
                 this.files.push({
                     name: name,
