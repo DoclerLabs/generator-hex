@@ -12,8 +12,6 @@ module.exports = yeoman.Base.extend({
         fileHelper.registerPackageOption(this);
     },
     initializing: function () {
-        this.runByPlugin = fileHelper.checkPluginCall(this);
-
         this.destinationRoot(cwd);
     },
     prompting: function () {
@@ -23,6 +21,7 @@ module.exports = yeoman.Base.extend({
             validate: fileHelper.validateCommaTypeList,
             message: 'List model names (separated by commas, including package):'
         }];
+        fileHelper.addCurrentPackagePrompt(this, prompts);
 
         return this.prompt(prompts).then(function (values) {
             this.props = values;
@@ -40,12 +39,10 @@ module.exports = yeoman.Base.extend({
                     name += 'Model';
 
                 var fullPack = pack;
-                if (this.runByPlugin) {
-                    if (!this.options.currentPackage.endsWith('model') && !pack.startsWith('model'))
-                        pack = helper.joinIfNotEmpty(['model', pack], '.');
+                if (!this.options.currentPackage.endsWith('model') && !pack.startsWith('model'))
+                    pack = helper.joinIfNotEmpty(['model', pack], '.');
 
-                    fullPack = helper.joinIfNotEmpty([this.options.currentPackage, pack], '.');
-                }
+                fullPack = helper.joinIfNotEmpty([this.options.currentPackage, pack], '.');
 
                 var file = {
                     name: name,

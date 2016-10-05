@@ -1,6 +1,7 @@
 'use strict';
 var yeoman = require('yeoman-generator');
 var projHelper = require('../projecthelper');
+var helper = require('../helper');
 
 module.exports = yeoman.Base.extend({
     prompting: function () {
@@ -13,7 +14,7 @@ module.exports = yeoman.Base.extend({
             type: 'input',
             name: 'packageName',
             validate: function (input) {
-                if (projHelper.validateHaxePackage(input))
+                if (helper.validateHaxePackage(input))
                     return true;
 
                 return 'Invalid package: "' + input + '"';

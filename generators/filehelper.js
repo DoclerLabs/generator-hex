@@ -31,6 +31,26 @@ module.exports = {
         return generator.options.currentPackage !== null;
     },
 
+    addCurrentPackagePrompt: function (generator, prompts) {
+        if (generator.options.currentPackage === null) {
+            prompts.splice(0, 0, {
+                type: 'input',
+                name: 'currentPackage',
+                validate: function (input) {
+                    if (helper.validateHaxePackage(input))
+                        return true;
+
+                    return 'Invalid package: "' + input + '"';
+                },
+                filter: function (input) {
+                    generator.options.currentPackage = input;
+                    return input;
+                },
+                message: 'What package are you currently in (you can also pass this by command line option "currentPackage")?'
+            });
+        }
+    },
+
     /** Checks whether the given string is a valid Haxe type path (e.g: com.example2.Test) */
     validateHaxeType: function (type) {
         var matched = type.match(this.typeRegex);

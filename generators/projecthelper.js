@@ -2,17 +2,6 @@
 var helper = require('./helper');
 
 module.exports = {
-    packRegex: /([a-z\d]+\.)+[a-z\d]+/,
-
-    /** Checks whether the given string is a valid Haxe package (e.g: com.example.test2) */
-    validateHaxePackage: function (pack) {
-        if (pack === '')
-            return true;
-
-        var matched = pack.match(this.packRegex);
-        return matched !== null && matched[0].length === pack.length;
-    },
-
     getProjectPromts: function (defaultName) {
         return [{
             type: 'input',

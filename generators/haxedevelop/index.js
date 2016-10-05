@@ -3,6 +3,7 @@ var yeoman = require('yeoman-generator');
 var chalk = require('chalk');
 var yosay = require('yosay');
 var projHelper = require('../projecthelper');
+var helper = require('../helper');
 
 module.exports = yeoman.Base.extend({
     initializing: function () {
@@ -20,7 +21,7 @@ module.exports = yeoman.Base.extend({
             type: 'input',
             name: 'packageName',
             validate: function (input) {
-                if (projHelper.validateHaxePackage(input))
+                if (helper.validateHaxePackage(input))
                     return true;
 
                 return 'Invalid package: "' + input + '"';
