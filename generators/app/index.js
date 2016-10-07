@@ -14,7 +14,6 @@ module.exports = yeoman.Base.extend({
         'model',
         'viewhelper',
         new inquirer.Separator(chalk.yellow('----Projects----')),
-        'haxedevelop',
         'project'
     ],
 

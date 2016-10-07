@@ -3,17 +3,18 @@ var path = require('path');
 var assert = require('yeoman-assert');
 var helpers = require('yeoman-test');
 
-var appName = 'hexGeneratorTest';
+var src = 'src';
 var packageName = 'org.hexmachina.hexgeneratortest';
 var targetPlatform = 'neko';
-var packagePath = 'src/org/hexmachina/hexgeneratortest';
+var packagePath = src + '/org/hexmachina/hexgeneratortest';
 
 describe('generator-hex:project', function () {
     before(function () {
         return helpers.run(path.join(__dirname, '../generators/project'))
             .withPrompts({
-                appName: appName,
+                srcFolder: src,
                 packageName: packageName,
+                projectFiles: 'hx',
                 targetPlatform: targetPlatform
             })
             .toPromise();
