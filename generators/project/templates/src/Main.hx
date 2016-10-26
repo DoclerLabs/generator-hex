@@ -4,7 +4,7 @@ import hex.compiler.parser.xml.XmlCompiler;
 import hex.log.layout.LogProxyLayout;
 
 /**
-* Main class for <%= props.appName %>
+* Main class for <%= appName %>
 */
 class Main
 {
