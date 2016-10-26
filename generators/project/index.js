@@ -68,6 +68,7 @@ module.exports = yeoman.Base.extend({
             var scope = {
                 props: this.props,
                 paths: this.paths,
+                appName: this.appname,
                 mainPath: mainPath
             };
 
