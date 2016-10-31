@@ -6,7 +6,7 @@ import hex.mdvc.control.CommandTrigger;
  * Generated code
  * @author <%= author %>
  */
-class GalleryController extends CommandTrigger implements <%= view.IController %>
+class <%= controller.Controller %> extends CommandTrigger implements <%= controller.IController %>
 {
 
 }

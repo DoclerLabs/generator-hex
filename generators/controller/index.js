@@ -61,7 +61,7 @@ module.exports = yeoman.Base.extend({
             var scope = {
                 author: this.user.git.name(),
                 package: file.fullPackage,
-                view: file
+                controller: file
             };
 
             var files = new Map([
