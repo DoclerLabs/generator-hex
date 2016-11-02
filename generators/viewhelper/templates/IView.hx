@@ -3,7 +3,8 @@ package <%= package %>;
 import hex.view.IView;
 
 /**
- * @author Petya
+ * Generated code
+ * @author <%= author %>
  */
 interface <%= view.IView %> extends IView
 {

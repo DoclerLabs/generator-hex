@@ -3,6 +3,23 @@
 module.exports = {
     packRegex: /([a-z\d]+\.)*[a-z\d]+/,
 
+    /** Makes yeoman ask for prompts after the given promise succeeded. promise can be null.
+     * After the prompts succeeded, the then function is called
+     * @returns Promise a new promise
+     */
+    chainPrompts: function (generator, promise, prompts, then) {
+        if (promise === null) {
+            promise = generator.prompt(prompts).then(then);
+        }
+        else {
+            promise = promise.then(function () {
+                return generator.prompt(prompts).then(then);
+            });
+        }
+
+        return promise;
+    },
+
     /** Checks whether the given string is a valid Haxe package (e.g: com.example.test2) */
     validateHaxePackage: function (pack) {
         if (pack === null || pack === undefined)
