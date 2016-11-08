@@ -81,7 +81,9 @@ module.exports = yeoman.Base.extend({
                 }];
 
                 promise = helper.chainPrompts(this, promise, prompts, function (values) {
-                    //this.composeWith('hex:') //TODO: create HttpParser generator
+                    this.composeWith('hex:serviceparser', {
+                        options: this.options
+                    }); //TODO: create HttpParser generator
 
                     var file = {
                         name: name,
@@ -117,8 +119,6 @@ module.exports = yeoman.Base.extend({
                 files.push(['AsyncStateless.hx', file.Service]);
             else if (file.serviceType === 'Http')
                 files.push(['HttpService.hx', file.Service]);
-
-            this.log(files);
 
             fileHelper.writeFilesToPackage(this, new Map(files), file.package, scope);
         }
