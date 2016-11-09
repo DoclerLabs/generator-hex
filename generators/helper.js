@@ -1,7 +1,5 @@
 'use strict';
 
-var optionOrPrompt = require('yeoman-option-or-prompt');
-
 module.exports = {
     packRegex: /([a-z\d]+\.)*[a-z\d]+/,
 
@@ -11,11 +9,11 @@ module.exports = {
      */
     chainPrompts: function (generator, promise, prompts) {
         if (promise === null) {
-            promise = generator.prompt(prompts);
+            promise = module.exports.prompt(generator, prompts);
         }
         else {
             promise = promise.then(function () {
-                return generator.prompt(prompts);
+                return module.exports.prompt(generator, prompts);
             });
         }
 
@@ -32,9 +30,9 @@ module.exports = {
             var opt = generator.options[prompt.name];
 
             if (opt !== undefined && opt !== null) //option found
-                answers[prompt.name];
+                answers[prompt.name] = opt;
             else
-                filteredPrompts.push(opt);
+                filteredPrompts.push(prompt);
         }
 
         return new Promise(function (resolve, reject) {
@@ -43,22 +41,14 @@ module.exports = {
                     for (var p in answers) {
                         values[p] = answers[p];
                     }
-                    generator.log(values);
 
                     resolve(values);
                 });
             }
+            else {
+                resolve(answers);
+            }
         });
-
-        //
-        //
-        // return new Promise(function (resolve, reject) {
-        //
-        //     generator._optionOrPrompt(prompts, function (values) {
-        //         generator.log("test");
-        //
-        //     });
-        // });
     },
 
     /** Checks whether the given string is a valid Haxe package (e.g: com.example.test2) */

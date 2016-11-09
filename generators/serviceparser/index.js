@@ -31,8 +31,6 @@ module.exports = yeoman.Base.extend({
             this.props = values;
             this.files = [];
 
-            this.log("test");
-
             var promise = null;
 
             helper.iterateCommaList(values.parserNames, function (parserName) {
@@ -75,9 +73,7 @@ module.exports = yeoman.Base.extend({
         }.bind(this));
     },
     writing: function () {
-        this.log("test2");
         for (var file of this.files) {
-            this.log(file);
             var scope = {
                 author: this.user.git.name(),
                 package: file.fullPackage,

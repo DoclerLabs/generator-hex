@@ -1,5 +1,6 @@
 'use strict';
 var yeoman = require('yeoman-generator');
+var chalk = require('chalk');
 var fileHelper = require('../filehelper');
 var helper = require('../helper');
 
@@ -80,10 +81,17 @@ module.exports = yeoman.Base.extend({
                     }
                 }];
 
-                promise = helper.chainPrompts(this, promise, prompts, function (values) {
-                    this.composeWith('hex:serviceparser', {
-                        options: this.options
-                    }); //TODO: create HttpParser generator
+                promise = helper.chainPrompts(this, promise, prompts).then(function (values) {
+                    if (values.serviceParser) {
+
+                        this.log(chalk.blue.underline.bold('ServiceParser'));
+
+                        this.composeWith('hex:serviceparser', {
+                            options: Object.assign({
+                                parserNames: pack + '.' + name + 'Parser'
+                            }, this.options)
+                        }); //TODO: create HttpParser generator
+                    }
 
                     var file = {
                         name: name,
@@ -92,7 +100,6 @@ module.exports = yeoman.Base.extend({
                         Service: name,
                         serviceType: values.serviceType,
                         hasInterface: values.createInterface,
-                        //serviceParser: values.serviceParser,
                         IService: values.interfaceName
                     };
 
