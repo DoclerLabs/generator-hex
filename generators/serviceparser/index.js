@@ -15,6 +15,8 @@ module.exports = yeoman.Base.extend({
         this.destinationRoot(cwd);
     },
     prompting: function () {
+        helper.printTitle(this);
+
         var prompts = [{
             type: 'input',
             name: 'parserNames',

@@ -83,12 +83,10 @@ module.exports = yeoman.Base.extend({
 
                 promise = helper.chainPrompts(this, promise, prompts).then(function (values) {
                     if (values.serviceParser) {
-
-                        this.log(chalk.blue.underline.bold('ServiceParser'));
-
                         this.composeWith('hex:serviceparser', {
                             options: Object.assign({
-                                parserNames: pack + '.' + name + 'Parser'
+                                parserNames: pack + '.' + name + 'Parser',
+                                title: '\n' + chalk.blue.underline.bold('ServiceParser for ' + name)
                             }, this.options)
                         }); //TODO: create HttpParser generator
                     }
@@ -123,7 +121,7 @@ module.exports = yeoman.Base.extend({
             if (file.serviceType === 'Stateful')
                 files.push(['StatefulService.hx', file.Service]);
             else if (file.serviceType === 'AsyncStateless')
-                files.push(['AsyncStateless.hx', file.Service]);
+                files.push(['AsyncStatelessService.hx', file.Service]);
             else if (file.serviceType === 'Http')
                 files.push(['HttpService.hx', file.Service]);
 

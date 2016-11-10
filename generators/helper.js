@@ -3,6 +3,11 @@
 module.exports = {
     packRegex: /([a-z\d]+\.)*[a-z\d]+/,
 
+    printTitle: function (generator) {
+        generator.option('title');
+        generator.log(generator.options.title);
+    },
+
     /** Makes yeoman ask for prompts after the given promise succeeded. promise can be null.
      * After the prompts succeeded, the then function is called
      * @returns Promise a new promise
