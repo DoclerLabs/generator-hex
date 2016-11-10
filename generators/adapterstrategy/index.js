@@ -46,7 +46,7 @@ module.exports = yeoman.Base.extend({
                     default: false
                 }];
 
-                promise = helper.chainPrompts(this, promise, prompts, function (values) {
+                promise = helper.chainPrompts(this, promise, prompts).then(function (values) {
                     var injection = values.injection;
 
                     var file = {
