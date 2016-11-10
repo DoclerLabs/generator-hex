@@ -19,7 +19,6 @@
   "dependencies": {
     "chalk": "^1.0.0",
     "yeoman-generator": "^0.23.0",
-    "yeoman-option-or-prompt": "^1.0.2",
     "yosay": "^1.0.0"
   },
   "devDependencies": {

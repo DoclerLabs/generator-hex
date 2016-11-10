@@ -3,13 +3,9 @@ var yeoman = require('yeoman-generator');
 var fileHelper = require('../filehelper');
 var helper = require('../helper');
 
-var optionOrPrompt = require('yeoman-option-or-prompt');
-
 var cwd = process.cwd();
 
 module.exports = yeoman.Base.extend({
-    _optionOrPrompt: optionOrPrompt,
-
     constructor: function () {
         yeoman.Base.apply(this, arguments);
 
