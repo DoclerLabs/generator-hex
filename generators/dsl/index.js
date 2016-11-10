@@ -37,7 +37,6 @@ module.exports = yeoman.Base.extend({
             message: 'What root tag should be used?',
             default: 'root'
         }];
-        fileHelper.addCurrentPackagePrompt(this, prompts);
 
         return this.prompt(prompts).then(function (values) {
             this.props = values;
@@ -54,12 +53,9 @@ module.exports = yeoman.Base.extend({
                 if (!name.endsWith('.xml'))
                     name += '.xml';
 
-                var fullPack = helper.joinIfNotEmpty([this.options.currentPackage, pack], '/');
-
                 var file = {
                     name: name,
                     package: pack,
-                    fullPackage: fullPack
                 };
 
                 this.files.push(file);
