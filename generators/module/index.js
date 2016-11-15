@@ -27,6 +27,8 @@ module.exports = yeoman.Base.extend({
             this.props = values;
             this.files = [];
 
+            var promise = null;
+
             helper.iterateCommaList(values.moduleNames, function (moduleName) {
                 if (moduleName === '')
                     return;
@@ -43,14 +45,34 @@ module.exports = yeoman.Base.extend({
 
                 var fullPack = helper.joinIfNotEmpty([this.options.currentPackage, pack], '.');
 
-                this.files.push({
-                    name: name,
-                    package: pack,
-                    fullPackage: fullPack,
-                    className: name,
-                    interfaceName: 'I' + name
-                });
+                var prompts = [{
+                    type: 'confirm',
+                    name: 'createInterface',
+                    message: 'Do you want to add a controller?',
+                    default: false
+                }];
+
+                promise = helper.chainPrompts(this, promise, prompts).then(function (values) {
+                    if (values.serviceParser) {
+                        this.composeWith('hex:controller', {
+                            options: Object.assign({
+                                controllerNames: pack + '.controller.' + name + 'Controller',
+                                ignoreNaming: true
+                            }, this.options)
+                        });
+                    }
+
+                    this.files.push({
+                        name: name,
+                        package: pack,
+                        fullPackage: fullPack,
+                        className: name,
+                        interfaceName: 'I' + name
+                    });
+                }.bind(this));
             }.bind(this));
+
+            return promise;
         }.bind(this));
     },
 

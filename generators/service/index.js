@@ -88,7 +88,7 @@ module.exports = yeoman.Base.extend({
                                 parserNames: pack + '.' + name + 'Parser',
                                 title: '\n' + chalk.blue.underline.bold('ServiceParser for ' + name)
                             }, this.options)
-                        }); //TODO: create HttpParser generator
+                        });
                     }
 
                     var file = {
