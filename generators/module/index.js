@@ -1,5 +1,6 @@
 'use strict';
 var yeoman = require('yeoman-generator');
+var chalk = require('chalk');
 var fileHelper = require('../filehelper');
 var helper = require('../helper');
 
@@ -47,16 +48,30 @@ module.exports = yeoman.Base.extend({
 
                 var prompts = [{
                     type: 'confirm',
-                    name: 'createInterface',
-                    message: 'Do you want to add a controller?',
+                    name: 'moduleConfig',
+                    message: 'Do you want to add a module config (mdvc specific)?',
+                    default: false
+                },{
+                    type: 'confirm',
+                    name: 'controller',
+                    message: 'Do you want to add a controller of the same name?',
                     default: false
                 }];
 
-                promise = helper.chainPrompts(this, promise, prompts).then(function (values) {
-                    if (values.serviceParser) {
+                promise = helper.chainPrompts(this, promise, prompts,
+                    '\n' + chalk.blue.underline.bold(name)).then(function (values) {
+
+                    var moduleConfig = null;
+                    if (values.moduleConfig) {
+                        moduleConfig = name + 'Config';
+                    }
+
+                    if (values.controller) {
+                        var controllerName = pack + '.controller.' + name + 'Controller';
+
                         this.composeWith('hex:controller', {
                             options: Object.assign({
-                                controllerNames: pack + '.controller.' + name + 'Controller',
+                                controllerNames: controllerName,
                                 ignoreNaming: true
                             }, this.options)
                         });
@@ -67,6 +82,8 @@ module.exports = yeoman.Base.extend({
                         package: pack,
                         fullPackage: fullPack,
                         className: name,
+                        moduleConfigName: moduleConfig,
+                        controllerName: 'controller.' + name + 'Controller', //TODO: fix
                         interfaceName: 'I' + name
                     });
                 }.bind(this));
@@ -82,7 +99,9 @@ module.exports = yeoman.Base.extend({
                 author: this.user.git.name(),
                 package: file.fullPackage,
                 className: file.className,
-                interfaceName: file.interfaceName
+                interfaceName: file.interfaceName,
+                moduleConfigName: file.moduleConfigName,
+                controllerName: file.controllerName
             };
 
             var files = new Map([
