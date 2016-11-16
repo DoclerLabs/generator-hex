@@ -1,4 +1,5 @@
 package <%= package %>;
+
 import hex.model.Model;
 import hex.model.ModelDispatcher;
 

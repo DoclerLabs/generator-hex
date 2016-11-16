@@ -43,8 +43,6 @@ module.exports = yeoman.Base.extend({
                         pack = helper.joinIfNotEmpty(['controller', pack], '.');
                 }
 
-
-
                 var fullPack = helper.joinIfNotEmpty([this.options.currentPackage, pack], '.');
 
                 var file = {

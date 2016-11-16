@@ -37,6 +37,7 @@ module.exports = yeoman.Base.extend({
                 var parts = moduleName.split('.');
                 var name = parts.pop();
                 var pack = parts.join('.');
+                var originalName = name;
 
                 if (!name.endsWith('Module'))
                     name += 'Module';
@@ -56,6 +57,11 @@ module.exports = yeoman.Base.extend({
                     name: 'controller',
                     message: 'Do you want to add a controller of the same name?',
                     default: false
+                },{
+                    type: 'confirm',
+                    name: 'model',
+                    message: 'Do you want to add a model of the same name?',
+                    default: false
                 }];
 
                 promise = helper.chainPrompts(this, promise, prompts,
@@ -67,11 +73,22 @@ module.exports = yeoman.Base.extend({
                     }
 
                     if (values.controller) {
-                        var controllerName = pack + '.controller.' + name + 'Controller';
+                        var controllerName = pack + '.controller.' + originalName + 'Controller';
 
                         this.composeWith('hex:controller', {
                             options: Object.assign({
                                 controllerNames: controllerName,
+                                ignoreNaming: true
+                            }, this.options)
+                        });
+                    }
+
+                    if (values.model) {
+                        var modelName = pack + '.model.' + originalName + 'Model';
+
+                        this.composeWith('hex:model', {
+                            options: Object.assign({
+                                modelNames: modelName,
                                 ignoreNaming: true
                             }, this.options)
                         });
@@ -83,7 +100,10 @@ module.exports = yeoman.Base.extend({
                         fullPackage: fullPack,
                         className: name,
                         moduleConfigName: moduleConfig,
-                        controllerName: 'controller.' + name + 'Controller', //TODO: fix
+                        Controller:     'controller.' + originalName + 'Controller',
+                        IController:    'controller.I' + originalName + 'Controller',
+                        Model:          'model.' + originalName + 'Model',
+                        IModel:         'model.I' + originalName + 'Model',
                         interfaceName: 'I' + name
                     });
                 }.bind(this));
@@ -101,7 +121,10 @@ module.exports = yeoman.Base.extend({
                 className: file.className,
                 interfaceName: file.interfaceName,
                 moduleConfigName: file.moduleConfigName,
-                controllerName: file.controllerName
+                Controller: file.Controller,
+                IController: file.IController,
+                Model: file.Model,
+                IModel: file.IModel
             };
 
             var files = new Map([
