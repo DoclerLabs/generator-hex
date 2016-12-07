@@ -41,7 +41,7 @@ All the other generators are file generators.
 They are designed to be used on an existing project.
 
 You should not run them from your project folder,
-but from your source folder or from a subfolder if your source folder instead.
+but from your source folder or from a subfolder of your source folder instead.
 See the example below for more info.
 
 ###Example
