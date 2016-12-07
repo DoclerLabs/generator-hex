@@ -12,7 +12,11 @@ module.exports = yeoman.Base.extend({
         new inquirer.Separator(chalk.yellow('------Files-----')),
         'module',
         'model',
+        'service',
         'viewhelper',
+        'controller',
+        'dsl',
+        'macro',
         new inquirer.Separator(chalk.yellow('----Projects----')),
         'project'
     ],
@@ -39,6 +43,7 @@ module.exports = yeoman.Base.extend({
         }];
 
         this.prompt(prompts).then(function (values) {
+            this.log('\n');
             this.composeWith('hex:' + values.generator, {
                 options: this.options
             });

@@ -3,21 +3,57 @@
 module.exports = {
     packRegex: /([a-z\d]+\.)*[a-z\d]+/,
 
+    printTitle: function (generator) {
+        generator.option('title');
+        generator.log(generator.options.title);
+    },
+
     /** Makes yeoman ask for prompts after the given promise succeeded. promise can be null.
      * After the prompts succeeded, the then function is called
      * @returns Promise a new promise
      */
-    chainPrompts: function (generator, promise, prompts, then) {
+    chainPrompts: function (generator, promise, prompts) {
         if (promise === null) {
-            promise = generator.prompt(prompts).then(then);
+            promise = module.exports.prompt(generator, prompts);
         }
         else {
             promise = promise.then(function () {
-                return generator.prompt(prompts).then(then);
+                return module.exports.prompt(generator, prompts);
             });
         }
 
         return promise;
+    },
+
+    /** Prompts the user for the given prompts, except if they were passed as options */
+    prompt: function (generator, prompts) {
+        var filteredPrompts = [];
+        var answers = {};
+
+        for (var prompt of prompts) {
+            generator.option(prompt.name);
+            var opt = generator.options[prompt.name];
+
+            if (opt !== undefined && opt !== null) //option found
+                answers[prompt.name] = opt;
+            else
+                filteredPrompts.push(prompt);
+        }
+
+        return new Promise(function (resolve, reject) {
+            if (filteredPrompts.length > 0) {
+                generator.prompt(filteredPrompts).then(function (values) {
+                    for (var p in answers) {
+                        values[p] = answers[p];
+                    }
+
+                    resolve(values);
+                });
+            }
+            else {
+                resolve(answers);
+            }
+        });
     },
 
     /** Checks whether the given string is a valid Haxe package (e.g: com.example.test2) */

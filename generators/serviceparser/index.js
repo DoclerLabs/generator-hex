@@ -15,45 +15,52 @@ module.exports = yeoman.Base.extend({
         this.destinationRoot(cwd);
     },
     prompting: function () {
+        helper.printTitle(this);
+
         var prompts = [{
             type: 'input',
-            name: 'adapterNames',
+            name: 'parserNames',
             validate: fileHelper.validateCommaTypeList,
-            message: 'List adapter strategy names (separated by commas):\n'
+            message: 'List parser names (separated by commas):\n'
         }];
         fileHelper.addCurrentPackagePrompt(this, prompts);
 
-        return this.prompt(prompts).then(function (values) {
+        return helper.prompt(this, prompts).then(function (values) {
             this.props = values;
             this.files = [];
 
             var promise = null;
 
-            helper.iterateCommaList(values.adapterNames, function (adapterName) {
-                if (adapterName === '')
+            helper.iterateCommaList(values.parserNames, function (parserName) {
+                if (parserName === '')
                     return;
 
-                var parts = adapterName.split('.');
+                var parts = parserName.split('.');
                 var name = parts.pop();
                 var pack = parts.join('.');
 
                 var fullPack = helper.joinIfNotEmpty([this.options.currentPackage, pack], '.');
 
                 var prompts = [{
-                    type: 'confirm',
-                    name: 'injection',
-                    message: 'Do you want to enable injection for ' + adapterName + ' ?',
-                    default: false
+                    type: 'input',
+                    name: 'returnType',
+                    validate: function (value) {
+                        if (!fileHelper.validateHaxeType(value)) {
+                            return 'Not a valid type: "' + value + '"';
+                        }
+                        return true;
+                    },
+                    message: 'Please enter a return type:\n',
+                    default: 'Dynamic'
                 }];
 
                 promise = helper.chainPrompts(this, promise, prompts).then(function (values) {
-                    var injection = values.injection;
-
                     var file = {
                         name: name,
                         package: pack,
                         fullPackage: fullPack,
-                        injector: injection
+                        ServiceParser: name,
+                        returnType: values.returnType
                     };
 
                     this.files.push(file);
@@ -63,20 +70,21 @@ module.exports = yeoman.Base.extend({
             return promise;
         }.bind(this));
     },
-
     writing: function () {
         for (var file of this.files) {
             var scope = {
                 author: this.user.git.name(),
                 package: file.fullPackage,
-                as: file
+                parser: file
             };
 
-            var files = new Map([
-                ['AdapterStrategy.hx', file.name]
-            ]);
+            var files = [
+                ['ServiceParser.hx', file.ServiceParser]
+            ];
 
-            fileHelper.writeFilesToPackage(this, files, file.package, scope);
+            fileHelper.writeFilesToPackage(this, new Map(files), file.package, scope);
         }
+
+
     }
 });
