@@ -13,6 +13,14 @@ npm install -g https://github.com/DoclerLabs/generator-hex.git
 
 ## Usage
 
+###FlashDevelop plugin
+
+The easiest way to use the generator is by installing the
+[hexMachina FlashDevelop plugin](https://github.com/DoclerLabs/hexDevelop).
+
+![Menu](doc/flashdevelop_yo.png "FlashDevelop / HaxeDevelop")
+
+###Command line
 To get started,
 open up the command line / terminal and call the hexMachina generator like this:
 
