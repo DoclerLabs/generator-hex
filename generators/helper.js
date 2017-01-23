@@ -3,21 +3,28 @@
 module.exports = {
     packRegex: /([a-z\d]+\.)*[a-z\d]+/,
 
-    printTitle: function (generator) {
+    printTitle: function (generator, title) {
         generator.option('title');
-        generator.log(generator.options.title);
+
+        title = title || generator.options.title;
+        if (title !== undefined && title !== null) {
+            generator.log(title);
+        }
+
     },
 
     /** Makes yeoman ask for prompts after the given promise succeeded. promise can be null.
      * After the prompts succeeded, the then function is called
      * @returns Promise a new promise
      */
-    chainPrompts: function (generator, promise, prompts) {
+    chainPrompts: function (generator, promise, prompts, title) {
         if (promise === null) {
+            module.exports.printTitle(generator, title);
             promise = module.exports.prompt(generator, prompts);
         }
         else {
             promise = promise.then(function () {
+                module.exports.printTitle(generator, title);
                 return module.exports.prompt(generator, prompts);
             });
         }

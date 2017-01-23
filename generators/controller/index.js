@@ -23,7 +23,7 @@ module.exports = yeoman.Base.extend({
         }];
         fileHelper.addCurrentPackagePrompt(this, prompts);
 
-        return this.prompt(prompts).then(function (values) {
+        return helper.prompt(this, prompts).then(function (values) {
             this.props = values;
             this.files = [];
 
@@ -35,11 +35,13 @@ module.exports = yeoman.Base.extend({
                 var name = parts.pop();
                 var pack = parts.join('.');
 
-                if (!name.endsWith('Controller'))
-                    name += 'Controller';
+                if (!this.options.ignoreNaming) {
+                    if (!name.endsWith('Controller'))
+                        name += 'Controller';
 
-                if (!this.options.currentPackage.endsWith('controller') && !pack.startsWith('controller'))
-                    pack = helper.joinIfNotEmpty(['controller', pack], '.');
+                    if (!this.options.currentPackage.endsWith('controller') && !pack.startsWith('controller'))
+                        pack = helper.joinIfNotEmpty(['controller', pack], '.');
+                }
 
                 var fullPack = helper.joinIfNotEmpty([this.options.currentPackage, pack], '.');
 

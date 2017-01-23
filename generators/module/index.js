@@ -1,5 +1,6 @@
 'use strict';
 var yeoman = require('yeoman-generator');
+var chalk = require('chalk');
 var fileHelper = require('../filehelper');
 var helper = require('../helper');
 
@@ -27,6 +28,8 @@ module.exports = yeoman.Base.extend({
             this.props = values;
             this.files = [];
 
+            var promise = null;
+
             helper.iterateCommaList(values.moduleNames, function (moduleName) {
                 if (moduleName === '')
                     return;
@@ -34,6 +37,7 @@ module.exports = yeoman.Base.extend({
                 var parts = moduleName.split('.');
                 var name = parts.pop();
                 var pack = parts.join('.');
+                var originalName = name;
 
                 if (!name.endsWith('Module'))
                     name += 'Module';
@@ -43,14 +47,69 @@ module.exports = yeoman.Base.extend({
 
                 var fullPack = helper.joinIfNotEmpty([this.options.currentPackage, pack], '.');
 
-                this.files.push({
-                    name: name,
-                    package: pack,
-                    fullPackage: fullPack,
-                    className: name,
-                    interfaceName: 'I' + name
-                });
+                var prompts = [{
+                    type: 'confirm',
+                    name: 'moduleConfig',
+                    message: 'Do you want to add a module config (mdvc specific)?',
+                    default: false
+                },{
+                    type: 'confirm',
+                    name: 'controller',
+                    message: 'Do you want to add a controller of the same name?',
+                    default: false
+                },{
+                    type: 'confirm',
+                    name: 'model',
+                    message: 'Do you want to add a model of the same name?',
+                    default: false
+                }];
+
+                promise = helper.chainPrompts(this, promise, prompts,
+                    '\n' + chalk.blue.underline.bold(name)).then(function (values) {
+
+                    var moduleConfig = null;
+                    if (values.moduleConfig) {
+                        moduleConfig = name + 'Config';
+                    }
+
+                    if (values.controller) {
+                        var controllerName = pack + '.controller.' + originalName + 'Controller';
+
+                        this.composeWith('hex:controller', {
+                            options: Object.assign({
+                                controllerNames: controllerName,
+                                ignoreNaming: true
+                            }, this.options)
+                        });
+                    }
+
+                    if (values.model) {
+                        var modelName = pack + '.model.' + originalName + 'Model';
+
+                        this.composeWith('hex:model', {
+                            options: Object.assign({
+                                modelNames: modelName,
+                                ignoreNaming: true
+                            }, this.options)
+                        });
+                    }
+
+                    this.files.push({
+                        name: name,
+                        package: pack,
+                        fullPackage: fullPack,
+                        className: name,
+                        moduleConfigName: moduleConfig,
+                        Controller:     'controller.' + originalName + 'Controller',
+                        IController:    'controller.I' + originalName + 'Controller',
+                        Model:          'model.' + originalName + 'Model',
+                        IModel:         'model.I' + originalName + 'Model',
+                        interfaceName: 'I' + name
+                    });
+                }.bind(this));
             }.bind(this));
+
+            return promise;
         }.bind(this));
     },
 
@@ -60,7 +119,12 @@ module.exports = yeoman.Base.extend({
                 author: this.user.git.name(),
                 package: file.fullPackage,
                 className: file.className,
-                interfaceName: file.interfaceName
+                interfaceName: file.interfaceName,
+                moduleConfigName: file.moduleConfigName,
+                Controller: file.Controller,
+                IController: file.IController,
+                Model: file.Model,
+                IModel: file.IModel
             };
 
             var files = new Map([

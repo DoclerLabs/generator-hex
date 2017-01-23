@@ -1,7 +1,8 @@
 package <%= package %>;
 import hex.module.*;
 import hex.module.dependency.*;
-
+<% if (moduleConfigName !== null) { %>import hex.mdvc.config.stateless.StatelessModuleConfig;
+<% } %>
 /**
  *
  * @author <%= author %>
@@ -20,3 +21,18 @@ class <%= className %> extends Module implements <%= interfaceName %>
 		return rd;
 	}
 }
+
+<% if (moduleConfigName !== null) { %>
+private class <%= moduleConfigName %> extends StatelessModuleConfig
+{
+	override public function configure() : Void
+	{
+	    <% if (Controller !== null) { %>
+	    this.mapController( <%= IController %>, <%= Controller %> );
+	    <% } %><% if (Model !== null) { %>
+        this.mapModel( <%= IModel %>, <%= Model %> );
+        <% } %>
+	    //...
+	}
+}
+<% } %>
