@@ -36,8 +36,8 @@ module.exports = yeoman.Base.extend({
                 var pack = parts.join('.');
 
                 if (!this.options.ignoreNaming) {
-                    if (!name.endsWith('Controller'))
-                        name += 'Controller';
+                    if (!name.endsWith('Command'))
+                        name += 'Command';
 
                     if (!this.options.currentPackage.endsWith('controller') && !pack.startsWith('controller'))
                         pack = helper.joinIfNotEmpty(['controller', pack], '.');

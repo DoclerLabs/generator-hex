@@ -38,6 +38,9 @@ module.exports = yeoman.Base.extend({
                 if (!name.endsWith('Macro'))
                     name += 'Macro';
 
+                if (!this.options.currentPackage.endsWith('controller') && !pack.startsWith('controller'))
+                    pack = helper.joinIfNotEmpty(['controller', pack], '.');
+
                 var fullPack = helper.joinIfNotEmpty([this.options.currentPackage, pack], '.');
 
                 var file = {
