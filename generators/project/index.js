@@ -1,7 +1,9 @@
 'use strict';
-var yeoman = require('yeoman-generator');
-var projHelper = require('../projecthelper');
-var helper = require('../helper');
+const yeoman = require('yeoman-generator');
+const chalk = require('chalk');
+const projHelper = require('../projecthelper');
+const helper = require('../helper');
+const spawn = require('child_process').spawn;
 
 module.exports = yeoman.Base.extend({
     prompting: function () {
@@ -63,6 +65,30 @@ module.exports = yeoman.Base.extend({
 
     writing: {
         templates: function () {
+            var info = spawn('haxelib', [ 'path', 'hexmachina']);
+            info.stdout.on('data', (data) => {
+                if (data.toString().startsWith("Error")) {
+                    this.prompt([{
+                        type: 'confirm',
+                        name: 'installHM',
+                        message: 'You do not seem to have hexMachina installed, do you want me to install it?',
+                        default: true
+                    }]).then(function (props) {
+                        if (props.installHM) {
+                            var install = spawn('haxelib', ['install', 'hexmachina']);
+                            install.stdout.on('data', (data) => {
+                                this.log(data.toString());
+                            });
+                        }
+                    }.bind(this));
+                }
+            });
+            info.on('error', (e) => {
+                this.log.error('Failed to run haxelib');
+            });
+
+
+
             var mainPath = helper.joinIfNotEmpty([this.props.srcFolder, this.paths.packagePath, 'Main.hx'], '/');
 
             var scope = {
