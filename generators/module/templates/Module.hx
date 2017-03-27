@@ -27,11 +27,11 @@ private class <%= moduleConfigName %> extends StatelessModuleConfig
 {
 	override public function configure() : Void
 	{
-	    <% if (Controller !== null) { %>
-	    this.mapController( <%= IController %>, <%= Controller %> );
-	    <% } %><% if (Model !== null) { %>
+	    <% if (Model !== null) { %>
         this.mapModel( <%= IModel %>, <%= Model %> );
-        <% } %>
+        <% } %><% if (Controller !== null) { %>
+	    this.mapController( <%= IController %>, <%= Controller %> );
+	    <% } %>
 	    //...
 	}
 }
