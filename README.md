@@ -13,14 +13,14 @@ npm install -g https://github.com/DoclerLabs/generator-hex.git
 
 ## Usage
 
-###FlashDevelop plugin
+### FlashDevelop plugin
 
 The easiest way to use the generator is by installing the
 [hexMachina FlashDevelop plugin](https://github.com/DoclerLabs/hexDevelop).
 
 ![Menu](doc/flashdevelop_yo.png "FlashDevelop / HaxeDevelop")
 
-###Command line
+### Command line
 To get started,
 open up the command line / terminal and call the hexMachina generator like this:
 
@@ -38,13 +38,13 @@ yo hex:module
 ```
 There are the following two different kinds of generators for hexMachina:
 
-###Project generator
+### Project generator
 The project generator gets you started by generating the basic project:
 ![Project generator](doc/yo_hex_project.png "Project generator")
 
 It can create some source files and either FlashDevelop project files or hxml files.
 
-###File generators
+### File generators
 All the other generators are file generators.
 They are designed to be used on an existing project.
 
@@ -52,8 +52,8 @@ You should not run them from your project folder,
 but from your source folder or from a subfolder of your source folder instead.
 See the example below for more info.
 
-###Example
-####Generating the project
+### Example
+#### Generating the project
 So to start a project, create a new folder first:
 ```bash
 mkdir example
@@ -82,7 +82,7 @@ After that your folder structure should look similar to this one
 └── yeoman_test.hxproj
 ```
 
-####Generating a file
+#### Generating a file
 Now you want to add some files to this. Let's say you want to create a new module.
 You also want this module to be in the `com.test.application` package.
 To put it there, change into the package directory and run the generator:
