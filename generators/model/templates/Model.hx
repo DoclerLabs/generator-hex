@@ -1,13 +1,13 @@
 package <%= package %>;
 
-import hex.model.Model;
+import hex.model.BasicModel;
 import hex.model.ModelDispatcher;
 
 /**
  * Generated code
  * @author <%= author %>
  */
-class <%= model.Model %> extends Model<<%= model.ModelDispatcher %>, <%= model.IModelListener %>> implements <%= model.IModel %>
+class <%= model.Model %> extends BasicModel<<%= model.ModelDispatcher %>, <%= model.IModelListener %>> implements <%= model.IModel %>
 {
 	public function new()
 	{
