@@ -1,7 +1,9 @@
 package <%= package %>;
 import hex.module.*;
 import hex.module.dependency.*;
-<% if (moduleConfigName !== null) { %>import hex.config.stateless.StatelessModuleConfig;
+<% if (moduleConfigName !== null) {%>import hex.config.stateless.StatelessModuleConfig;
+<% for (var imp of imports) { %>import <%= imp %>;
+<% } %>
 <% } %>
 /**
  *

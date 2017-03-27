@@ -94,16 +94,25 @@ module.exports = yeoman.Base.extend({
                         });
                     }
 
+                    var fullModel = helper.joinIfNotEmpty([fullPack, 'model.' + originalName + 'Model'], '.');
+                    var fullIModel = helper.joinIfNotEmpty([fullPack, 'model.I' + originalName + 'Model'], '.');
+                    var fullController = helper.joinIfNotEmpty([fullPack, 'controller.' + originalName + 'Controller'], '.');
+                    var fullIController = helper.joinIfNotEmpty([fullPack, 'controller.I' + originalName + 'Controller'], '.');
+
                     this.files.push({
                         name: name,
                         package: pack,
                         fullPackage: fullPack,
                         className: name,
                         moduleConfigName: moduleConfig,
-                        Controller:     'controller.' + originalName + 'Controller',
-                        IController:    'controller.I' + originalName + 'Controller',
-                        Model:          'model.' + originalName + 'Model',
-                        IModel:         'model.I' + originalName + 'Model',
+                        Controller:     originalName + 'Controller',
+                        IController:    'I' + originalName + 'Controller',
+                        Model:          originalName + 'Model',
+                        IModel:         'I' + originalName + 'Model',
+                        fullModel:      fullModel,
+                        fullIModel:     fullIModel,
+                        fullController: fullController,
+                        fullIController: fullIController,
                         interfaceName: 'I' + name
                     });
                 }.bind(this));
@@ -124,8 +133,20 @@ module.exports = yeoman.Base.extend({
                 Controller: file.Controller,
                 IController: file.IController,
                 Model: file.Model,
-                IModel: file.IModel
+                IModel: file.IModel,
+                imports: []
             };
+
+            if (scope.moduleConfigName !== null) {
+                if (scope.Controller !== null) {
+                    scope.imports.push(file.fullIController);
+                    scope.imports.push(file.fullController);
+                }
+                if (scope.Model !== null) {
+                    scope.imports.push(file.fullIModel);
+                    scope.imports.push(file.fullModel);
+                }
+            }
 
             var files = new Map([
                 ['IModule.hx', file.interfaceName],
