@@ -1,12 +1,12 @@
 package <%= package %>;
 
-import hex.mdvc.control.ICommandTrigger;
+import hex.di.IInjectorContainer;
 
 /**
  * Generated code
  * @author <%= author %>
  */
-interface <%= controller.IController %> extends ICommandTrigger
+interface <%= controller.IController %> extends IInjectorContainer
 {
 
 }
