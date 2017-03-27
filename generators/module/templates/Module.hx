@@ -1,7 +1,7 @@
 package <%= package %>;
 import hex.module.*;
 import hex.module.dependency.*;
-<% if (moduleConfigName !== null) { %>import hex.mdvc.config.stateless.StatelessModuleConfig;
+<% if (moduleConfigName !== null) { %>import hex.config.stateless.StatelessModuleConfig;
 <% } %>
 /**
  *
